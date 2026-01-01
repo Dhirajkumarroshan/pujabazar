@@ -61,6 +61,54 @@ nav a {
   font-size: 40px;
 }
 
+/* HERO SLIDER */
+.hero-slider {
+  position: relative;
+  height: 70vh;
+  overflow: hidden;
+}
+
+.slides {
+  height: 100%;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.slide.active {
+  opacity: 1;
+}
+
+/* Hero text overlay */
+.hero-content {
+  position: absolute;
+  top: 50%;
+  left: 8%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  padding: 30px;
+  border-radius: 14px;
+  max-width: 420px;
+}
+
+.hero-content h1 {
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+
+.hero-content p {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+
 /* OFFER */
 .offer-strip {
   text-align: center;
@@ -163,4 +211,5 @@ footer {
   display: grid;
   grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
 }
+
 
