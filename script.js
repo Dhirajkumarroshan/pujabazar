@@ -13,7 +13,10 @@ const grid = document.getElementById("productGrid");
 products.forEach(p => {
   grid.innerHTML += `
     <div class="product-card">
-      <img src="${p.img}" loading="lazy"/>
+      <div class="product-image">
+          <img src="${p.img}" alt="${p.name}" loading="lazy" />
+      </div>
+
       <h4>${p.name}</h4>
       <p class="price">₹${p.price}</p>
       <button class="btn primary" onclick="addToCart(${p.id})">Add to Cart</button>
@@ -52,5 +55,6 @@ function renderCart(){
 }
 
 updateCart();
+
 
 
