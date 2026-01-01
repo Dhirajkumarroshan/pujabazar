@@ -1,9 +1,9 @@
 const products = [
-  {id:1, name:"Pure Ganga Jal", price:199, img: "images/ganga-jal.jpg"},
-  {id:2, name:"Puja Thali Set", price:899, img:"images/diya.jpg"},
-  {id:3, name:"Incense Sticks", price:149, img:"https://images.unsplash.com/photo-1609921141835-710b7fa2c8c1"},
-  {id:4, name:"Brass Diya", price:299, img:"https://images.unsplash.com/photo-1618220179428-22790b461013"},
-  {id:5, name:"Rudraksha Mala", price:499, img:"https://images.unsplash.com/photo-1612392061787-2d078b3f7c38"}
+  {id:1, name:"Pure Ganga Jal", price:399, img: "images/ganga-jal.jpg"},
+  {id:2, name:"Puja Thali Set", price:699, img:"images/puja-Thali.jpg"},
+  {id:3, name:"Incense Sticks", price:149, img:"incense-stick.jpg"},
+  {id:4, name:"Brass Diya", price:299, img:"Diya-brass.jpg"},
+  {id:5, name:"Rudraksha Mala", price:499, img:"Rudra.jpg"}
 ];
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -55,6 +55,7 @@ function renderCart(){
 }
 
 updateCart();
+
 
 
 
