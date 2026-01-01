@@ -65,8 +65,8 @@ nav a {
 .hero-slider {
   position: relative;
   width: 100%;
-  height: 75vh;             /* controls banner height */
-  min-height: 420px;
+  height: 52vh;             /* controls banner height */
+  min-height: 300px;
   overflow: hidden;
 }
 .slides {
@@ -111,7 +111,8 @@ nav a {
 
 @media (max-width: 768px) {
   .hero-slider {
-    height: 55vh;
+    height: 40vh;
+    min-height: 240px;
   }
 
   .hero-content {
@@ -223,6 +224,7 @@ footer {
   display: grid;
   grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
 }
+
 
 
 
