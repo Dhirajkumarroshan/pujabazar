@@ -1,50 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Puja Bazar | Buy Puja Items Online</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PujaBazar.in – Premium Puja Store</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<header>
-    <h1>PujaBazar.in</h1>
-    <p>Pure Puja Samagri Delivered to Your Doorstep</p>
+<!-- HEADER -->
+<header class="header">
+  <div class="logo">PujaBazar.in</div>
+  <nav>
+    <a>Men</a>
+    <a>Women</a>
+    <a>Kids</a>
+    <a>Beauty</a>
+    <a>Home & Kitchen</a>
+  </nav>
+  <div class="actions">
+    <input type="text" placeholder="Search products..." id="search"/>
+    <span>❤️</span>
+    <span onclick="openCart()">🛒 (<span id="cartCount">0</span>)</span>
+    <button class="btn">Login</button>
+  </div>
 </header>
 
-<nav>
-    <a href="#">Home</a>
-    <a href="#">Products</a>
-    <a href="#">About</a>
-    <a href="#">Contact</a>
-</nav>
-
-<section class="products">
-    <div class="product">
-        <img src="images/ganga-jal.jpg" alt="Ganga Jal">
-        <h3>Pure Ganga Jal</h3>
-        <p>₹199</p>
-        <button>Add to Cart</button>
-    </div>
-
-    <div class="product">
-        <img src="images/diya.jpg" alt="Diya">
-        <h3>Brass Diya</h3>
-        <p>₹299</p>
-        <button>Add to Cart</button>
-    </div>
-
-    <div class="product">
-        <img src="images/incense.jpg" alt="Incense">
-        <h3>Agarbatti Pack</h3>
-        <p>₹149</p>
-        <button>Add to Cart</button>
-    </div>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <h1>Elevated Puja Essentials</h1>
+    <p>Min 50% OFF on Festival Items</p>
+    <button class="btn primary">Shop Now</button>
+  </div>
 </section>
 
+<!-- OFFER STRIP -->
+<div class="offer-strip">
+  🎉 Get 5% Instant Discount on All Prepaid Transactions
+</div>
+
+<!-- PRODUCTS -->
+<section class="products">
+  <h2>Top Deals</h2>
+  <div class="product-grid" id="productGrid"></div>
+</section>
+
+<!-- CART MODAL -->
+<div class="cart-modal" id="cartModal">
+  <h3>Your Cart</h3>
+  <div id="cartItems"></div>
+  <p><strong>Total:</strong> ₹<span id="totalPrice">0</span></p>
+  <button class="btn primary">Checkout</button>
+  <button class="btn" onclick="closeCart()">Close</button>
+</div>
+
+<!-- FOOTER -->
 <footer>
-    <p>© 2026 PujaBazar.in | Made with ❤️ in India</p>
+  <div>
+    <h4>About PujaBazar</h4>
+    <p>Premium Puja & Spiritual Products</p>
+  </div>
+  <div>
+    <h4>Policies</h4>
+    <p>Privacy Policy</p>
+    <p>Terms & Conditions</p>
+  </div>
+  <div>
+    <h4>Newsletter</h4>
+    <input type="email" placeholder="Your email"/>
+  </div>
 </footer>
 
+<script src="script.js"></script>
 </body>
 </html>
