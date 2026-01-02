@@ -125,6 +125,20 @@ function changeQty(id, delta) {
 }
 
 
+// Close cart when clicking outside
+document.addEventListener("click", function (e) {
+  const cartModal = document.getElementById("cartModal");
+  const cartIcon = document.getElementById("cartIcon");
+
+  if (
+    cartModal.style.display === "block" &&
+    !cartModal.contains(e.target) &&
+    !cartIcon.contains(e.target)
+  ) {
+    closeCart();
+  }
+});
+
 
 
 
