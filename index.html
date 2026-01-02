@@ -55,6 +55,12 @@
   <div class="product-grid" id="productGrid"></div>
 </section>
 
+<!-- CART ICON (must be OUTSIDE modal) -->
+<span id="cartIcon" onclick="openCart()">
+  🛒 (<span id="cartCount">0</span>)
+</span>
+
+  
 <!-- CART MODAL -->
 <div class="cart-modal" id="cartModal">
   <h3>Your Cart</h3>
@@ -64,6 +70,7 @@
   <button class="btn" onclick="closeCart()">Close</button>
 </div>
 
+  
 <!-- FOOTER -->
 <footer>
   <div>
@@ -84,6 +91,4 @@
 <script src="script.js"></script>
 </body>
 </html>
-
-
 
