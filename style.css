@@ -150,7 +150,7 @@ nav a {
 }
 
 .product-image {
-  height: 220px;            /* fixed image box */
+  height: 200px;            /* fixed image box */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -167,8 +167,9 @@ nav a {
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 260px));
+  gap: 24px;
+  justify-content: flex-start; /* 🔥 important */
 }
 
 .product-card {
@@ -179,6 +180,7 @@ nav a {
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 260px;
 }
 
 .product-card:hover {
@@ -246,6 +248,7 @@ footer {
   display: grid;
   grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
 }
+
 
 
 
