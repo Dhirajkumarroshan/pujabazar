@@ -24,14 +24,26 @@ products.forEach(p => {
   `;
 });
 
-function addToCart(id){
-  cart.push(products.find(p=>p.id===id));
-  localStorage.setItem("cart",JSON.stringify(cart));
+function addToCart(id) {
+  const product = products.find(p => p.id === id);
+
+  const existingItem = cart.find(item => item.id === id);
+
+  if (existingItem) {
+    // product already in cart → increase quantity
+    existingItem.qty += 1;
+  } else {
+    // product not in cart → add with qty = 1
+    cart.push({ ...product, qty: 1 });
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
   updateCart();
 }
 
 function updateCart(){
-  document.getElementById("cartCount").innerText = cart.length;
+  const count = cart.reduce((sum, item) => sum + item.qty, 0);
+  document.getElementById("cartCount").innerText = count;
 }
 
 function openCart(){
@@ -44,14 +56,27 @@ function closeCart(){
 }
 
 function renderCart(){
-  let total=0;
-  const items=document.getElementById("cartItems");
-  items.innerHTML="";
-  cart.forEach(i=>{
-    total+=i.price;
-    items.innerHTML+=`<p>${i.name} - ₹${i.price}</p>`;
+  let total = 0;
+  const items = document.getElementById("cartItems");
+  items.innerHTML = "";
+
+  cart.forEach(item => {
+    total += item.price * item.qty;
+
+    items.innerHTML += `
+      <div class="cart-item">
+        <span>${item.name}</span>
+        <div class="qty-controls">
+          <button onclick="changeQty(${item.id}, -1)">−</button>
+          <span>${item.qty}</span>
+          <button onclick="changeQty(${item.id}, 1)">+</button>
+        </div>
+        <span>₹${item.price * item.qty}</span>
+      </div>
+    `;
   });
-  document.getElementById("totalPrice").innerText=total;
+
+  document.getElementById("totalPrice").innerText = total;
 }
 
 updateCart();
@@ -83,6 +108,21 @@ cycleHeroBox();
 
 // Repeat every 30 seconds (10s show + 20s hide)
 setInterval(cycleHeroBox, 30000);
+
+function changeQty(id, delta) {
+  const item = cart.find(p => p.id === id);
+  if (!item) return;
+
+  item.qty += delta;
+
+  if (item.qty <= 0) {
+    cart = cart.filter(p => p.id !== id);
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCart();
+  renderCart();
+}
 
 
 
