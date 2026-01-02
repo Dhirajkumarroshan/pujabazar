@@ -124,6 +124,15 @@ function changeQty(id, delta) {
   renderCart();
 }
 
+document.getElementById("cartIcon").addEventListener("click", function (e) {
+  e.stopPropagation(); // 🔥 THIS IS THE KEY
+  openCart();
+});
+
+document.getElementById("cartModal").addEventListener("click", function (e) {
+  e.stopPropagation();
+});
+
 
 // Close cart when clicking outside
 document.addEventListener("click", function (e) {
@@ -138,6 +147,7 @@ document.addEventListener("click", function (e) {
     closeCart();
   }
 });
+
 
 
 
