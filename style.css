@@ -12,14 +12,20 @@ body {
 
 /* HEADER */
 .header {
-  position: sticky;
+  position: relative;
   top: 0;
   background: white;
   display: flex;
   justify-content: space-between;
   padding: 15px 30px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-  z-index: 100;
+  z-index: 9999;
+}
+
+.hero,
+.slider,
+.slides {
+  pointer-events: none;
 }
 
 .logo {
@@ -98,6 +104,7 @@ nav a {
   border-radius: 14px;
   max-width: 420px;
   transition: opacity 0.6s ease, visibility 0.6s ease;
+  pointer-events: auto;
 }
 
 .hero-content.hidden {
@@ -195,6 +202,14 @@ nav a {
   border-radius: 6px;
 }
 
+#cartIcon {
+  cursor: pointer;
+  pointer-events: auto;
+  position: relative;
+  z-index: 10000;
+}
+
+
 .product-card button {
   margin-top: auto;
 }
@@ -231,6 +246,7 @@ footer {
   display: grid;
   grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
 }
+
 
 
 
