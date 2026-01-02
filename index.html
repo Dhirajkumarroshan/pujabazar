@@ -22,7 +22,10 @@
   <div class="actions">
     <input type="text" placeholder="Search products..." id="search"/>
     <span>❤️</span>
-    <span onclick="openCart()">🛒 (<span id="cartCount">0</span>)</span>
+    <span id="cartIcon">
+        🛒 (<span id="cartCount">0</span>)
+    </span>
+
     <button class="btn">Login</button>
   </div>
 </header>
@@ -55,12 +58,6 @@
   <div class="product-grid" id="productGrid"></div>
 </section>
 
-<!-- CART ICON (must be OUTSIDE modal) -->
-<span id="cartIcon">
-  🛒 (<span id="cartCount">0</span>)
-</span>
-
-
   
 <!-- CART MODAL -->
 <div class="cart-modal" id="cartModal">
@@ -92,6 +89,7 @@
 <script src="script.js"></script>
 </body>
 </html>
+
 
 
 
