@@ -10,19 +10,7 @@ let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 const grid = document.getElementById("productGrid");
 
-products.forEach(p => {
-  grid.innerHTML += `
-    <div class="product-card">
-      <div class="product-image">
-          <img src="${p.img}" alt="${p.name}" loading="lazy" />
-      </div>
-
-      <h4>${p.name}</h4>
-      <p class="price">₹${p.price}</p>
-      <button class="btn primary" onclick="addToCart(${p.id})">Add to Cart</button>
-    </div>
-  `;
-});
+renderProducts(products);
 
 function addToCart(id) {
   const product = products.find(p => p.id === id);
@@ -147,6 +135,41 @@ document.addEventListener("click", function (e) {
     closeCart();
   }
 });
+
+function renderProducts(productList) {
+  const grid = document.getElementById("productGrid");
+  grid.innerHTML = "";
+
+  productList.forEach(p => {
+    grid.innerHTML += `
+      <div class="product-card">
+        <div class="product-image">
+          <img src="${p.img}" alt="${p.name}" loading="lazy" />
+        </div>
+
+        <h4>${p.name}</h4>
+        <p class="price">₹${p.price}</p>
+        <button class="btn primary" onclick="addToCart(${p.id})">
+          Add to Cart
+        </button>
+      </div>
+    `;
+  });
+}
+
+const searchInput = document.getElementById("search");
+
+searchInput.addEventListener("input", function () {
+  const query = this.value.toLowerCase();
+
+  const filteredProducts = products.filter(product =>
+    product.name.toLowerCase().includes(query)
+  );
+
+  renderProducts(filteredProducts);
+});
+
+
 
 
 
