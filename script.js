@@ -66,6 +66,25 @@ setInterval(() => {
   slides[currentSlide].classList.add("active");
 }, 5000); // 5 seconds
 
+const heroBox = document.getElementById("heroBox");
+
+function cycleHeroBox() {
+  // Show for 10 seconds
+  heroBox.classList.remove("hidden");
+
+  setTimeout(() => {
+    // Hide for 20 seconds
+    heroBox.classList.add("hidden");
+  }, 10000); // 10 sec
+}
+
+// Initial run
+cycleHeroBox();
+
+// Repeat every 30 seconds (10s show + 20s hide)
+setInterval(cycleHeroBox, 30000);
+
+
 
 
 
