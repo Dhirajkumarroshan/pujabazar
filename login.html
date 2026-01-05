@@ -6,6 +6,65 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="style.css">
 </head>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDFLboc-AKz1Pw_cNNHVogUyogvQSgwtnY",
+    authDomain: "pujabazar-e1ba6.firebaseapp.com",
+    projectId: "pujabazar-e1ba6",
+    storageBucket: "pujabazar-e1ba6.firebasestorage.app",
+    messagingSenderId: "845847820050",
+    appId: "1:845847820050:web:4e976f0be28ba15f2ba5cb"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+</script>
+
+<script>
+  const auth = firebase.auth();
+  let confirmationResult;
+
+  window.onload = function () {
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+      'recaptcha-container',
+      { size: 'normal' }
+    );
+  };
+
+  function sendOTP() {
+    const phone = "+91" + document.getElementById("mobile").value;
+
+    auth.signInWithPhoneNumber(phone, window.recaptchaVerifier)
+      .then(result => {
+        confirmationResult = result;
+        alert("OTP Sent");
+        document.getElementById("otp").style.display = "block";
+        document.getElementById("verifyBtn").style.display = "block";
+      })
+      .catch(error => {
+        alert(error.message);
+      });
+  }
+
+  function verifyOTP() {
+    const code = document.getElementById("otp").value;
+
+    confirmationResult.confirm(code)
+      .then(result => {
+        alert("Login Successful!");
+        window.location.href = "index.html";
+      })
+      .catch(error => {
+        alert("Invalid OTP");
+      });
+  }
+</script>
+
+  
+  
 <body class="login-body">
 
 <div class="login-container">
@@ -26,16 +85,18 @@
   <div class="login-right">
     <h2>Login Now!</h2>
 
-    <div class="mobile-box">
-      <span>🇮🇳 +91</span>
-      <input type="text" placeholder="Enter Mobile Number">
-    </div>
+<div class="mobile-box">
+  <span>🇮🇳 +91</span>
+  <input type="text" id="mobile" placeholder="Enter Mobile Number">
+</div>
 
-    <label>
-      <input type="checkbox"> Notify me with offers & updates
-    </label>
+<div id="recaptcha-container"></div>
 
-    <button class="btn primary">Send OTP</button>
+<button class="btn primary" onclick="sendOTP()">Send OTP</button>
+
+<input type="text" id="otp" placeholder="Enter OTP" style="display:none;margin-top:10px;">
+<button class="btn" onclick="verifyOTP()" id="verifyBtn" style="display:none;">Verify OTP</button>
+
 
     <p class="terms">
       I accept the <a href="#">Privacy Policy</a> & <a href="#">T&C</a>
