@@ -385,6 +385,14 @@ footer {
   background: rgba(0,0,0,0.65);
   z-index: 9999;
   display: none;
+  pointer-events: all;
+}
+
+body.login-open {
+  overflow: hidden;
+}
+body.login-open > *:not(.login-overlay) {
+  pointer-events: none;
 }
 
 /* PANEL */
@@ -485,6 +493,7 @@ footer {
 .login-right li {
   margin-bottom: 10px;
 }
+
 
 
 
