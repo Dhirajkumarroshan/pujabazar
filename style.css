@@ -323,9 +323,6 @@ footer {
 }
 
 /* LOGIN LAYOUT */
-.login-box {
-  display: flex;
-}
 
 .login-left, .login-right {
   padding: 40px;
@@ -344,19 +341,6 @@ footer {
   margin-bottom: 20px;
 }
 
-.google-btn {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px;
-  border: none;
-  background: #ea4335;
-  color: #fff;
-  font-size: 14px;
-  cursor: pointer;
-}
-
 .google-btn img {
   width: 18px;
   background: #fff;
@@ -364,38 +348,11 @@ footer {
   border-radius: 50%;
 }
 
-.or {
-  text-align: center;
-  margin: 15px 0;
-  color: #888;
-}
-
 .login-left input {
   width: 100%;
   padding: 10px;
   margin-bottom: 12px;
   border: 1px solid #ccc;
-}
-
-.remember {
-  font-size: 13px;
-}
-
-.signin-btn {
-  width: 100%;
-  background: #ff3f6c;
-  color: #fff;
-  border: none;
-  padding: 12px;
-  margin-top: 15px;
-  cursor: pointer;
-}
-
-.links {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 15px;
-  font-size: 13px;
 }
 
 .login-right h3 {
@@ -528,6 +485,7 @@ footer {
 .login-right li {
   margin-bottom: 10px;
 }
+
 
 
 
