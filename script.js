@@ -1,101 +1,88 @@
+/***********************
+ * PRODUCTS
+ ***********************/
 const products = [
-  {id:1, name:"Pure Ganga Jal", price:399, img: "images/ganga-jal.jpg"},
-  {id:2, name:"Puja Thali Set", price:699, img:"images/puja-Thali.jpg"},
-  {id:3, name:"Incense Sticks", price:149, img:"images/incense-stick.jpg"},
-  {id:4, name:"Brass Diya", price:299, img:"images/Diya-brass.jpg"},
-  {id:5, name:"Rudraksha Mala", price:499, img:"images/Rudra.jpg"}
+  { id: 1, name: "Pure Ganga Jal", price: 399, img: "images/ganga-jal.jpg" },
+  { id: 2, name: "Puja Thali Set", price: 699, img: "images/puja-Thali.jpg" },
+  { id: 3, name: "Incense Sticks", price: 149, img: "images/incense-stick.jpg" },
+  { id: 4, name: "Brass Diya", price: 299, img: "images/Diya-brass.jpg" },
+  { id: 5, name: "Rudraksha Mala", price: 499, img: "images/Rudra.jpg" }
 ];
 
+/***********************
+ * CART STATE
+ ***********************/
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-const grid = document.getElementById("productGrid");
+/***********************
+ * PRODUCT RENDER
+ ***********************/
+function renderProducts(productList) {
+  const grid = document.getElementById("productGrid");
+  grid.innerHTML = "";
 
-renderProducts(products);
+  productList.forEach(p => {
+    grid.innerHTML += `
+      <div class="product-card">
+        <div class="product-image">
+          <img src="${p.img}" alt="${p.name}" loading="lazy" />
+        </div>
+        <h4>${p.name}</h4>
+        <p class="price">₹${p.price}</p>
+        <button class="btn primary" onclick="addToCart(${p.id})">
+          Add to Cart
+        </button>
+      </div>
+    `;
+  });
+}
 
+/***********************
+ * CART LOGIC
+ ***********************/
 function addToCart(id) {
   const product = products.find(p => p.id === id);
+  const existing = cart.find(i => i.id === id);
 
-  const existingItem = cart.find(item => item.id === id);
-
-  if (existingItem) {
-    // product already in cart → increase quantity
-    existingItem.qty += 1;
+  if (existing) {
+    existing.qty += 1;
   } else {
-    // product not in cart → add with qty = 1
     cart.push({ ...product, qty: 1 });
   }
 
-  localStorage.setItem("cart", JSON.stringify(cart));
-  updateCart();
+  saveCart();
 }
 
-function updateCart(){
-  const count = cart.reduce((sum, item) => sum + item.qty, 0);
-  document.getElementById("cartCount").innerText = count;
-}
+function changeQty(id, delta) {
+  const item = cart.find(p => p.id === id);
+  if (!item) return;
 
-function openCart(){
-  document.getElementById("cartModal").style.display="block";
-  renderCart();
-}
-
-function closeCart(){
-  document.getElementById("cartModal").style.display="none";
-}
-
-const products = [
-  {id:1, name:"Pure Ganga Jal", price:399, img: "images/ganga-jal.jpg"},
-  {id:2, name:"Puja Thali Set", price:699, img:"images/puja-Thali.jpg"},
-  {id:3, name:"Incense Sticks", price:149, img:"images/incense-stick.jpg"},
-  {id:4, name:"Brass Diya", price:299, img:"images/Diya-brass.jpg"},
-  {id:5, name:"Rudraksha Mala", price:499, img:"images/Rudra.jpg"}
-];
-
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-const grid = document.getElementById("productGrid");
-
-renderProducts(products);
-
-function addToCart(id) {
-  const product = products.find(p => p.id === id);
-
-  const existingItem = cart.find(item => item.id === id);
-
-  if (existingItem) {
-    // product already in cart → increase quantity
-    existingItem.qty += 1;
-  } else {
-    // product not in cart → add with qty = 1
-    cart.push({ ...product, qty: 1 });
+  item.qty += delta;
+  if (item.qty <= 0) {
+    cart = cart.filter(p => p.id !== id);
   }
 
+  saveCart();
+}
+
+function saveCart() {
   localStorage.setItem("cart", JSON.stringify(cart));
   updateCart();
-}
-
-function updateCart(){
-  const count = cart.reduce((sum, item) => sum + item.qty, 0);
-  document.getElementById("cartCount").innerText = count;
-}
-
-function openCart(){
-  document.getElementById("cartModal").style.display="block";
   renderCart();
 }
 
-function closeCart(){
-  document.getElementById("cartModal").style.display="none";
+function updateCart() {
+  const count = cart.reduce((sum, i) => sum + i.qty, 0);
+  document.getElementById("cartCount").innerText = count;
 }
 
-function renderCart(){
-  let total = 0;
+function renderCart() {
   const items = document.getElementById("cartItems");
+  let total = 0;
   items.innerHTML = "";
 
   cart.forEach(item => {
     total += item.price * item.qty;
-
     items.innerHTML += `
       <div class="cart-item">
         <span>${item.name}</span>
@@ -112,63 +99,24 @@ function renderCart(){
   document.getElementById("totalPrice").innerText = total;
 }
 
-updateCart();
-
-// HERO SLIDER LOGIC
-let currentSlide = 0;
-const slides = document.querySelectorAll(".slide");
-
-setInterval(() => {
-  slides[currentSlide].classList.remove("active");
-  currentSlide = (currentSlide + 1) % slides.length;
-  slides[currentSlide].classList.add("active");
-}, 5000); // 5 seconds
-
-const heroBox = document.getElementById("heroBox");
-
-function cycleHeroBox() {
-  // Show for 10 seconds
-  heroBox.classList.remove("hidden");
-
-  setTimeout(() => {
-    // Hide for 20 seconds
-    heroBox.classList.add("hidden");
-  }, 10000); // 10 sec
-}
-
-// Initial run
-cycleHeroBox();
-
-// Repeat every 30 seconds (10s show + 20s hide)
-setInterval(cycleHeroBox, 30000);
-
-function changeQty(id, delta) {
-  const item = cart.find(p => p.id === id);
-  if (!item) return;
-
-  item.qty += delta;
-
-  if (item.qty <= 0) {
-    cart = cart.filter(p => p.id !== id);
-  }
-
-  localStorage.setItem("cart", JSON.stringify(cart));
-  updateCart();
+function openCart() {
+  document.getElementById("cartModal").style.display = "block";
   renderCart();
 }
 
-document.getElementById("cartIcon").addEventListener("click", function (e) {
-  e.stopPropagation(); // 🔥 THIS IS THE KEY
+function closeCart() {
+  document.getElementById("cartModal").style.display = "none";
+}
+
+/***********************
+ * CART EVENTS
+ ***********************/
+document.getElementById("cartIcon").addEventListener("click", e => {
+  e.stopPropagation();
   openCart();
 });
 
-document.getElementById("cartModal").addEventListener("click", function (e) {
-  e.stopPropagation();
-});
-
-
-// Close cart when clicking outside
-document.addEventListener("click", function (e) {
+document.addEventListener("click", e => {
   const cartModal = document.getElementById("cartModal");
   const cartIcon = document.getElementById("cartIcon");
 
@@ -181,39 +129,29 @@ document.addEventListener("click", function (e) {
   }
 });
 
-function renderProducts(productList) {
-  const grid = document.getElementById("productGrid");
-  grid.innerHTML = "";
-
-  productList.forEach(p => {
-    grid.innerHTML += `
-      <div class="product-card">
-        <div class="product-image">
-          <img src="${p.img}" alt="${p.name}" loading="lazy" />
-        </div>
-
-        <h4>${p.name}</h4>
-        <p class="price">₹${p.price}</p>
-        <button class="btn primary" onclick="addToCart(${p.id})">
-          Add to Cart
-        </button>
-      </div>
-    `;
-  });
-}
-
-const searchInput = document.getElementById("search");
-
-searchInput.addEventListener("input", function () {
-  const query = this.value.toLowerCase();
-
-  const filteredProducts = products.filter(product =>
-    product.name.toLowerCase().includes(query)
-  );
-
-  renderProducts(filteredProducts);
+/***********************
+ * SEARCH
+ ***********************/
+document.getElementById("search").addEventListener("input", function () {
+  const q = this.value.toLowerCase();
+  renderProducts(products.filter(p => p.name.toLowerCase().includes(q)));
 });
 
+/***********************
+ * HERO SLIDER
+ ***********************/
+let currentSlide = 0;
+const slides = document.querySelectorAll(".slide");
+
+setInterval(() => {
+  slides[currentSlide].classList.remove("active");
+  currentSlide = (currentSlide + 1) % slides.length;
+  slides[currentSlide].classList.add("active");
+}, 5000);
+
+/***********************
+ * LOGIN MODAL
+ ***********************/
 function openLogin() {
   document.getElementById("loginModal").style.display = "block";
   document.body.style.overflow = "hidden";
@@ -224,128 +162,8 @@ function closeLogin() {
   document.body.style.overflow = "auto";
 }
 
-function renderCart(){
-  let total = 0;
-  const items = document.getElementById("cartItems");
-  items.innerHTML = "";
-
-  cart.forEach(item => {
-    total += item.price * item.qty;
-
-    items.innerHTML += `
-      <div class="cart-item">
-        <span>${item.name}</span>
-        <div class="qty-controls">
-          <button onclick="changeQty(${item.id}, -1)">−</button>
-          <span>${item.qty}</span>
-          <button onclick="changeQty(${item.id}, 1)">+</button>
-        </div>
-        <span>₹${item.price * item.qty}</span>
-      </div>
-    `;
-  });
-
-  document.getElementById("totalPrice").innerText = total;
-}
-
+/***********************
+ * INIT
+ ***********************/
+renderProducts(products);
 updateCart();
-
-// HERO SLIDER LOGIC
-let currentSlide = 0;
-const slides = document.querySelectorAll(".slide");
-
-setInterval(() => {
-  slides[currentSlide].classList.remove("active");
-  currentSlide = (currentSlide + 1) % slides.length;
-  slides[currentSlide].classList.add("active");
-}, 5000); // 5 seconds
-
-const heroBox = document.getElementById("heroBox");
-
-function cycleHeroBox() {
-  // Show for 10 seconds
-  heroBox.classList.remove("hidden");
-
-  setTimeout(() => {
-    // Hide for 20 seconds
-    heroBox.classList.add("hidden");
-  }, 10000); // 10 sec
-}
-
-// Initial run
-cycleHeroBox();
-
-// Repeat every 30 seconds (10s show + 20s hide)
-setInterval(cycleHeroBox, 30000);
-
-function changeQty(id, delta) {
-  const item = cart.find(p => p.id === id);
-  if (!item) return;
-
-  item.qty += delta;
-
-  if (item.qty <= 0) {
-    cart = cart.filter(p => p.id !== id);
-  }
-
-  localStorage.setItem("cart", JSON.stringify(cart));
-  updateCart();
-  renderCart();
-}
-
-document.getElementById("cartIcon").addEventListener("click", function (e) {
-  e.stopPropagation(); // 🔥 THIS IS THE KEY
-  openCart();
-});
-
-document.getElementById("cartModal").addEventListener("click", function (e) {
-  e.stopPropagation();
-});
-
-
-// Close cart when clicking outside
-document.addEventListener("click", function (e) {
-  const cartModal = document.getElementById("cartModal");
-  const cartIcon = document.getElementById("cartIcon");
-
-  if (
-    cartModal.style.display === "block" &&
-    !cartModal.contains(e.target) &&
-    !cartIcon.contains(e.target)
-  ) {
-    closeCart();
-  }
-});
-
-function renderProducts(productList) {
-  const grid = document.getElementById("productGrid");
-  grid.innerHTML = "";
-
-  productList.forEach(p => {
-    grid.innerHTML += `
-      <div class="product-card">
-        <div class="product-image">
-          <img src="${p.img}" alt="${p.name}" loading="lazy" />
-        </div>
-
-        <h4>${p.name}</h4>
-        <p class="price">₹${p.price}</p>
-        <button class="btn primary" onclick="addToCart(${p.id})">
-          Add to Cart
-        </button>
-      </div>
-    `;
-  });
-}
-
-const searchInput = document.getElementById("search");
-
-searchInput.addEventListener("input", function () {
-  const query = this.value.toLowerCase();
-
-  const filteredProducts = products.filter(product =>
-    product.name.toLowerCase().includes(query)
-  );
-
-  renderProducts(filteredProducts);
-});
