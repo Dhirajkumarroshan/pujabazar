@@ -63,6 +63,7 @@
 function openLogin() {
   const overlay = document.getElementById("loginOverlay");
   overlay.style.display = "block";
+  document.body.classList.add("login-open");
 
   setTimeout(() => {
     overlay.classList.add("active");
@@ -75,6 +76,7 @@ function closeLogin() {
 
   setTimeout(() => {
     overlay.style.display = "none";
+    document.body.classList.remove("login-open");
   }, 500);
 }
 </script>
@@ -162,6 +164,7 @@ function closeLogin() {
   
 </body>
 </html>
+
 
 
 
