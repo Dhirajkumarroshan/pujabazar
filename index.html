@@ -109,11 +109,21 @@
 
 <script>
 function openLogin() {
-  document.getElementById("loginModal").style.display = "block";
-}
+  const overlay = document.getElementById("loginOverlay");
+  overlay.style.display = "block";
 
+  setTimeout(() => {
+    overlay.classList.add("active");
+  }, 50);
+}
+  
 function closeLogin() {
-  document.getElementById("loginModal").style.display = "none";
+  const overlay = document.getElementById("loginOverlay");
+  overlay.classList.remove("active");
+
+  setTimeout(() => {
+    overlay.style.display = "none";
+  }, 500);
 }
 </script>
 
@@ -209,6 +219,7 @@ window.onclick = function(event) {
   
 </body>
 </html>
+
 
 
 
