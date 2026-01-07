@@ -83,14 +83,17 @@ function renderCart() {
 
   cart.forEach(item => {
     total += item.price * item.qty;
+
     items.innerHTML += `
       <div class="cart-item">
         <span>${item.name}</span>
+
         <div class="qty-controls">
-          <button onclick="changeQty(${item.id}, -1)">−</button>
+          <button onclick="event.stopPropagation(); changeQty(${item.id}, -1)">−</button>
           <span>${item.qty}</span>
-          <button onclick="changeQty(${item.id}, 1)">+</button>
+          <button onclick="event.stopPropagation(); changeQty(${item.id}, 1)">+</button>
         </div>
+
         <span>₹${item.price * item.qty}</span>
       </div>
     `;
@@ -107,6 +110,11 @@ function openCart() {
 function closeCart() {
   document.getElementById("cartModal").style.display = "none";
 }
+
+document.getElementById("cartModal").addEventListener("click", function (e) {
+  e.stopPropagation();
+});
+
 
 /***********************
  * CART EVENTS
@@ -155,4 +163,5 @@ setInterval(() => {
  ***********************/
 renderProducts(products);
 updateCart();
+
 
