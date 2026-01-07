@@ -149,21 +149,10 @@ setInterval(() => {
   slides[currentSlide].classList.add("active");
 }, 5000);
 
-/***********************
- * LOGIN MODAL
- ***********************/
-function openLogin() {
-  document.getElementById("loginModal").style.display = "block";
-  document.body.style.overflow = "hidden";
-}
-
-function closeLogin() {
-  document.getElementById("loginModal").style.display = "none";
-  document.body.style.overflow = "auto";
-}
 
 /***********************
  * INIT
  ***********************/
 renderProducts(products);
 updateCart();
+
