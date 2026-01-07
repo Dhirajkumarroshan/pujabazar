@@ -29,9 +29,9 @@ function renderProducts(productList) {
         </div>
         <h4>${p.name}</h4>
         <p class="price">₹${p.price}</p>
-        <button class="btn primary" onclick="addToCart(${p.id})">
-          Add to Cart
-        </button>
+        <div class="cart-action" data-id="${p.id}">
+          ${getCartButton(p.id)}
+        </div>
       </div>
     `;
   });
@@ -69,7 +69,17 @@ function saveCart() {
   localStorage.setItem("cart", JSON.stringify(cart));
   updateCart();
   renderCart();
+  renderProducts(products); // 🔥 THIS IS IMPORTANT
 }
+
+function animateAddToCart(btn) {
+  btn.classList.add("added");
+
+  setTimeout(() => {
+    btn.classList.remove("added");
+  }, 600);
+}
+
 
 function updateCart() {
   const count = cart.reduce((sum, i) => sum + i.qty, 0);
@@ -163,5 +173,27 @@ setInterval(() => {
  ***********************/
 renderProducts(products);
 updateCart();
+
+function getCartButton(id) {
+  const item = cart.find(p => p.id === id);
+
+  if (!item) {
+    return `
+      <button class="btn primary add-btn"
+        onclick="addToCart(${id}); animateAddToCart(this)">
+        Add to Cart
+      </button>
+    `;
+  }
+
+  return `
+    <div class="qty-hover">
+      <button onclick="event.stopPropagation(); changeQty(${id}, -1)">−</button>
+      <span>${item.qty}</span>
+      <button onclick="event.stopPropagation(); changeQty(${id}, 1)">+</button>
+    </div>
+  `;
+}
+
 
 
