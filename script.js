@@ -180,22 +180,22 @@ updateCart();
 function getCartButton(id) {
   const item = cart.find(p => p.id === id);
 
-  // If product NOT in cart → normal button
+  // NOT in cart
   if (!item) {
     return `
       <button class="btn primary add-cart-btn"
-              onclick="addToCart(${id}); animateAddToCart(this)"
+              onclick="addToCart(${id}); animateAddToCart(this)">
         Add to Cart
       </button>
     `;
   }
 
-  // If product IS in cart → same size, hover qty
+  // IN cart (hover qty)
   return `
     <button class="btn primary add-cart-btn has-qty"
             onmouseenter="showQty(${id}, this)"
             onmouseleave="hideQty(this)"
-            onclick="addToCart(${id}); animateAddToCart(this)"
+            onclick="addToCart(${id}); animateAddToCart(this)">
 
       <span class="add-text">Add to Cart</span>
 
@@ -221,6 +221,7 @@ function showQty(id, btn) {
 function hideQty(btn) {
   btn.classList.remove("has-qty");
 }
+
 
 
 
