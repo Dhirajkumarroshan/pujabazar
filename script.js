@@ -206,6 +206,19 @@ function getCartButton(id) {
   `;
 }
 
+function showQty(id, btn) {
+  const item = cart.find(p => p.id === id);
+  if (!item) return;
+
+  btn.classList.add("has-qty");
+  const qtyEl = btn.querySelector(".qty-count");
+  if (qtyEl) qtyEl.innerText = item.qty;
+}
+
+function hideQty(btn) {
+  btn.classList.remove("has-qty");
+}
+
 
 
 
