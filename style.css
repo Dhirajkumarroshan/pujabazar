@@ -615,6 +615,12 @@ body.login-open > *:not(.login-overlay) {
 }
 
 
+/* FORCE Add to Cart button full width */
+.product-card .btn,
+.product-card .add-cart-btn {
+  width: 100%;
+  display: block;
+}
 
 
 
