@@ -740,7 +740,7 @@ body.login-open > *:not(.login-overlay) {
 .top-strip-track {
   white-space: nowrap;
   display: inline-block;
-  animation: moveText 18s linear infinite;
+  animation: moveText 30s linear infinite;
 }
 
 .top-strip-track span {
@@ -751,6 +751,11 @@ body.login-open > *:not(.login-overlay) {
   padding-left: 100%;
 }
 
+.top-strip:hover .top-strip-track {
+  animation-play-state: paused;
+}
+
+
 /* smooth premium animation */
 @keyframes moveText {
   0% {
@@ -760,6 +765,7 @@ body.login-open > *:not(.login-overlay) {
     transform: translateX(100%);
   }
 }
+
 
 
 
