@@ -378,13 +378,86 @@ body.login-open > *:not(.login-overlay) {
   cursor: pointer;
 }
 
-/* LEFT LOGIN */
+/* LEFT PANEL */
 .login-left {
   width: 60%;
   padding: 24px;
   background: #d3cdc4;
-  overflow: hidden;
 }
+
+/* SPLIT LAYOUT */
+.login-split {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.login-google {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.google-login {
+  padding: 12px 18px;
+  background: #e0673c;
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+/* OR DIVIDER */
+.login-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.login-divider::before {
+  content: "";
+  width: 1px;
+  height: 120px;
+  background: #aaa;
+  position: absolute;
+}
+
+.login-divider span {
+  background: #d3cdc4;
+  padding: 6px;
+  font-size: 12px;
+  z-index: 1;
+}
+
+/* FORM */
+.login-form {
+  flex: 1;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 8px;
+  border: 1px solid #aaa;
+}
+
+.signin {
+  width: 100%;
+  background: #ff3f6c;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.login-panel,
+.login-panel * {
+  margin: 0;
+}
+
 
 /* =========================
    RIGHT VIDEO PANEL
@@ -392,22 +465,19 @@ body.login-open > *:not(.login-overlay) {
 .login-video {
   width: 40%;
   height: 100%;
-  background: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden; /* 🔥 no white space */
+  background: transparent;   /* ❌ remove black */
+  overflow: hidden;
 }
 
-/* 🔥 FULL VIDEO – NO CROPPING */
+/* FULL VIDEO – NO CROP, NO BARS */
 .login-video video {
   width: 100%;
   height: 100%;
-  object-fit: contain;  /* ✅ FULL IMAGE */
-  background: #000;     /* fills empty sides */
+  object-fit: contain;       /* shows full video */
+  background: transparent;  /* ❌ remove black bars */
   display: block;
-  animation: slowZoom 12s ease-in-out infinite alternate;
 }
+
 
 .login-video img {
   width: 100%;
@@ -459,6 +529,7 @@ footer {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
 }
+
 
 
 
