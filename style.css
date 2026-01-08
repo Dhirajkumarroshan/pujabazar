@@ -569,6 +569,7 @@ body.login-open > *:not(.login-overlay) {
 .add-cart-btn {
   position: relative;
   overflow: hidden;
+  width: 100%;
 }
 
 /* text */
@@ -580,7 +581,7 @@ body.login-open > *:not(.login-overlay) {
 .add-cart-btn .qty-box {
   position: absolute;
   inset: 0;
-  perceive: flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
@@ -612,8 +613,6 @@ body.login-open > *:not(.login-overlay) {
 .qty-box span:hover {
   opacity: 0.8;
 }
-
-
 
 
 
