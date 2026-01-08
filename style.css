@@ -343,6 +343,7 @@ body.login-open > *:not(.login-overlay) {
   pointer-events: none;
 }
 
+/* LOGIN PANEL */
 .login-panel {
   position: absolute;
   top: 50%;
@@ -353,7 +354,7 @@ body.login-open > *:not(.login-overlay) {
   background: #fff;
   display: flex;
   border-radius: 16px;
-  overflow: hidden; /* 🔥 VERY IMPORTANT */
+  overflow: hidden; /* 🔥 CRITICAL */
   transition: right 0.5s ease;
 }
 
@@ -372,27 +373,28 @@ body.login-open > *:not(.login-overlay) {
 
 /* LEFT LOGIN */
 .login-left {
-  flex: 1;
+  width: 60%;
   padding: 40px;
   background: #d3cdc4;
 }
 
-/* =========================
-   RIGHT VIDEO SECTION
-========================= */
+/* RIGHT VIDEO */
 .login-video {
   width: 40%;
   height: 100%;
   position: relative;
   background: #000;
-  overflow: hidden; /* 🔥 STOPS OVERFLOW */
+  overflow: hidden; /* 🔥 STOPS WHITE SPACE */
 }
 
-/* VIDEO ITSELF */
+/* VIDEO FIT */
 .login-video video {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* 🔥 FITS PERFECTLY */
+  object-fit: cover; /* 🔥 PERFECT FIT */
+  display: block;
+  filter: brightness(0.9);
+  transition: transform 6s ease;
 }
 
 /* DARK OVERLAY + TEXT */
@@ -435,4 +437,5 @@ footer {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
 }
+
 
