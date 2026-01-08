@@ -184,7 +184,7 @@ function getCartButton(id) {
   if (!item) {
     return `
       <button class="btn primary add-cart-btn"
-              onclick="addToCart(${id})">
+              onclick="addToCart(${id}); animateAddToCart(this)"
         Add to Cart
       </button>
     `;
@@ -195,7 +195,7 @@ function getCartButton(id) {
     <button class="btn primary add-cart-btn has-qty"
             onmouseenter="showQty(${id}, this)"
             onmouseleave="hideQty(this)"
-            onclick="addToCart(${id})">
+            onclick="addToCart(${id}); animateAddToCart(this)"
 
       <span class="add-text">Add to Cart</span>
 
@@ -221,6 +221,7 @@ function showQty(id, btn) {
 function hideQty(btn) {
   btn.classList.remove("has-qty");
 }
+
 
 
 
