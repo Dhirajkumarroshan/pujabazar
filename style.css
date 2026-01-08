@@ -564,28 +564,53 @@ body.login-open > *:not(.login-overlay) {
   min-height: 42px;
 }
 
-.qty-hover {
-  display: flex;
+/* ADD TO CART – HOVER QTY (NO SIZE CHANGE) */
+
+.add-cart-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+/* text */
+.add-cart-btn .add-text {
+  display: block;
+}
+
+/* qty container */
+.add-cart-btn .qty-box {
+  position: absolute;
+  inset: 0;
+  perceive: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  background: #f5f5f5;
-  padding: 8px;
-  border-radius: 6px;
+  background: black;
+  color: white;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
 }
 
-.qty-hover button {
-  width: 30px;
-  height: 30px;
-  border: none;
-  background: #000;
-  color: #fff;
-  border-radius: 50%;
+/* show qty only on hover */
+.add-cart-btn.has-qty:hover .qty-box {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* hide text on hover */
+.add-cart-btn.has-qty:hover .add-text {
+  opacity: 0;
+}
+
+/* qty buttons */
+.qty-box span {
   cursor: pointer;
+  font-size: 18px;
+  user-select: none;
 }
 
-.qty-hover span {
-  font-weight: 600;
+.qty-box span:hover {
+  opacity: 0.8;
 }
 
 
