@@ -354,7 +354,7 @@ body.login-open > *:not(.login-overlay) {
   background: #fff;
   display: flex;
   border-radius: 16px;
-  overflow: hidden; /* 🔥 CRITICAL */
+  overflow: hidden;          /* 🔥 MUST */
   transition: right 0.5s ease;
 }
 
@@ -363,10 +363,12 @@ body.login-open > *:not(.login-overlay) {
   transform: translate(50%, -50%);
 }
 
+/* CLOSE BUTTON */
 .login-close {
   position: absolute;
-  top: 15px;
-  right: 20px;
+  top: 12px;
+  right: 14px;
+  z-index: 10;
   font-size: 22px;
   cursor: pointer;
 }
@@ -378,24 +380,27 @@ body.login-open > *:not(.login-overlay) {
   background: #d3cdc4;
 }
 
-/* RIGHT VIDEO */
+
+/* RIGHT VIDEO CONTAINER */
 .login-video {
   width: 40%;
   height: 100%;
-  position: relative;
   background: #000;
-  overflow: hidden; /* 🔥 STOPS WHITE SPACE */
+  overflow: hidden;          /* 🔥 */
+  display: flex;             /* 🔥 */
 }
 
-/* VIDEO FIT */
+
+/* VIDEO PERFECT FIT */
 .login-video video {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* 🔥 PERFECT FIT */
-  display: block;
-  filter: brightness(0.9);
-  transition: transform 6s ease;
+  object-fit: cover;         /* 🔥 fills without distortion */
+  display: block;            /* 🔥 removes white gaps */
+  margin: 0;                 /* 🔥 */
+  padding: 0;                /* 🔥 */
 }
+
 
 /* DARK OVERLAY + TEXT */
 .login-video-overlay {
@@ -437,5 +442,6 @@ footer {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
 }
+
 
 
