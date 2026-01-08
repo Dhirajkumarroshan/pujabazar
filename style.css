@@ -11,11 +11,11 @@
 body {
   background: #fff;
   color: #222;
-  padding-top: 116px;
+  padding-top: 116px; /* 36px top strip + ~80px header */
 }
 
 /* =========================
-   TOP STRIP
+   TOP PREMIUM MOVING STRIP
 ========================= */
 .top-strip {
   position: fixed;
@@ -24,34 +24,46 @@ body {
   width: 100%;
   height: 36px;
   background: #000;
+  overflow: hidden;
   z-index: 10001;
   display: flex;
   align-items: center;
-  overflow: hidden;
 }
 
 .top-strip-track {
   white-space: nowrap;
+  display: inline-block;
   animation: moveText 45s linear infinite;
 }
 
 .top-strip-track span {
   color: #fff;
   font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
   padding-left: 100%;
 }
 
+.top-strip:hover .top-strip-track {
+  animation-play-state: paused;
+}
+
 @keyframes moveText {
-  from { transform: translateX(0); }
-  to { transform: translateX(-100%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
 }
 
 /* =========================
-   HEADER
+   HEADER (FIXED)
 ========================= */
 .header {
   position: fixed;
   top: 36px;
+  left: 0;
   width: 100%;
   background: #fff;
   display: flex;
@@ -61,21 +73,89 @@ body {
   z-index: 10000;
 }
 
+.logo {
+  font-weight: 600;
+  font-size: 22px;
+}
+
+.main-nav {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-item > a {
+  text-decoration: none;
+  color: #222;
+  padding: 8px 10px;
+  font-weight: 500;
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  min-width: 200px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  border-radius: 8px;
+  padding: 8px 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.25s ease;
+  z-index: 10000;
+}
+
+.dropdown a {
+  display: block;
+  padding: 10px 15px;
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.dropdown a:hover {
+  background: #f5f5f5;
+}
+
+.nav-item:hover .dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.actions input {
+  padding: 6px 10px;
+}
+
+#cartIcon {
+  cursor: pointer;
+  position: relative;
+  z-index: 10000;
+}
+
 /* =========================
-   HERO SLIDER (RESTORED)
+   HERO SLIDER
 ========================= */
 .hero-slider {
   position: relative;
   width: 100%;
-  height: 70vh;
-  min-height: 420px;
+  height: 52vh;
+  min-height: 300px;
   overflow: hidden;
-  background: #000;
 }
 
 .slides {
-  position: relative;
-  width: 100%;
   height: 100%;
 }
 
@@ -98,34 +178,150 @@ body {
   top: 50%;
   left: 8%;
   transform: translateY(-50%);
-  background: rgba(255,255,255,0.92);
+  background: rgba(255,255,255,0.9);
   padding: 30px;
-  max-width: 420px;
   border-radius: 14px;
-  z-index: 2;
+  max-width: 420px;
 }
 
-body {
-  background: #fff !important;
+.hero-content.hidden {
+  opacity: 0;
+  visibility: hidden;
 }
 
+.hero-content h1 {
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+
+.hero-content p {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+.btn {
+  padding: 8px 14px;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.primary {
+  background: #000;
+  color: #fff;
+}
+
+/* =========================
+   PRODUCTS
+========================= */
 .products {
   padding: 40px;
-  background: #fff;
-  position: relative;
-  z-index: 1;
 }
 
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 260px));
+  gap: 24px;
+}
 
-.logo {
-  font-size: 22px;
+.product-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-image {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.product-image img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.price {
   font-weight: 600;
 }
 
-.actions {
+.product-card .btn {
+  width: 100%;
+  margin-top: auto;
+}
+
+/* =========================
+   ADD TO CART (HOVER QTY)
+========================= */
+.add-cart-btn {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.add-cart-btn .add-text {
+  display: block;
+}
+
+.add-cart-btn .qty-box {
+  position: absolute;
+  inset: 0;
   display: flex;
-  gap: 10px;
+  justify-content: center;
   align-items: center;
+  gap: 12px;
+  background: #000;
+  color: #fff;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.add-cart-btn.has-qty:hover .qty-box {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.add-cart-btn.has-qty:hover .add-text {
+  opacity: 0;
+}
+
+/* =========================
+   CART MODAL
+========================= */
+.cart-modal {
+  position: fixed;
+  right: 20px;
+  top: 80px;
+  width: 340px;
+  background: #fff;
+  padding: 22px;
+  border-radius: 16px;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+  display: none;
+}
+
+.cart-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  margin: 18px 0;
+  font-weight: 600;
 }
 
 /* =========================
@@ -143,64 +339,63 @@ body.login-open {
   overflow: hidden;
 }
 
-/* =========================
-   LOGIN PANEL
-========================= */
+body.login-open > *:not(.login-overlay) {
+  pointer-events: none;
+}
+
 .login-panel {
   position: absolute;
   top: 50%;
   right: -1000px;
   transform: translateY(-50%);
   width: 900px;
-  height: 420px;
+  height: 336px;            /* 🔥 ~40% reduced */
   background: #fff;
   display: flex;
-  overflow: hidden;
+  overflow: hidden;        /* 🔥 NO gaps */
+  border-radius: 0;        /* 🔥 SQUARE corners */
   transition: right 0.5s ease;
 }
+
+.login-panel > div {
+  margin: 0;
+  padding: 0;
+}
+
 
 .login-overlay.active .login-panel {
   right: 50%;
   transform: translate(50%, -50%);
 }
 
+/* CLOSE BUTTON */
 .login-close {
   position: absolute;
   top: 12px;
   right: 14px;
+  z-index: 10;
   font-size: 22px;
   cursor: pointer;
-  z-index: 10;
 }
 
-/* =========================
-   LEFT LOGIN PANEL (WHITE)
-========================= */
+/* LEFT PANEL */
 .login-left {
   width: 60%;
-  padding: 36px;
-  background: #fff;
+  padding: 28px;
+  background: #d3cdc4;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  flex: 3;       
 }
 
-.login-title {
-  font-size: 18px;
-  font-weight: 500;
-  margin-bottom: 28px;
-}
-
-/* =========================
-   LOGIN SPLIT
-========================= */
+/* SPLIT LAYOUT */
 .login-split {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 20px;
 }
 
-/* GOOGLE LOGIN */
 .login-google {
   flex: 1;
   display: flex;
@@ -208,59 +403,189 @@ body.login-open {
 }
 
 .google-login {
-  padding: 12px 20px;
+  padding: 12px 18px;
   background: #e0673c;
   color: #fff;
   border: none;
-  border-radius: 6px;
   font-weight: 600;
   cursor: pointer;
+  border-radius: 6px;
 }
 
-/* =========================
-   VERTICAL OR DIVIDER
-========================= */
-.login-divider-vertical {
-  position: relative;
+/* OR DIVIDER */
+.login-divider {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
-.login-divider-vertical::before {
+.login-divider::before {
   content: "";
   width: 1px;
-  height: 150px;
-  background: #bbb;
+  height: 120px;
+  background: #aaa;
   position: absolute;
 }
 
-.login-divider-vertical span {
-  background: #fff;
+.login-divider span {
+  background: #d3cdc4;
   padding: 6px;
   font-size: 12px;
-  color: #777;
   z-index: 1;
 }
 
-/* =========================
-   LOGIN FORM
-========================= */
+/* FORM */
 .login-form {
   flex: 1;
 }
 
+.login-form input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 8px;
+  border: 1px solid #aaa;
+}
+
+.signin {
+  width: 100%;
+  background: #ff3f6c;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.login-panel,
+.login-panel * {
+  margin: 0;
+}
+
+
+/* =========================
+   RIGHT VIDEO PANEL
+========================= */
+.login-video {
+  width: 40%;
+  height: 100%;
+  overflow: hidden;
+  flex: 2;                 /* 🔥 remaining space */
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* FULL VIDEO – NO CROP, NO BARS */
+.login-video video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;       /* shows full video */
+  background: transparent;  /* ❌ remove black bars */
+  display: block;
+}
+
+
+.login-video img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;   /* 🔥 fills without distortion */
+  display: block;      /* 🔥 removes inline gaps */
+  margin: 0;           /* 🔥 */
+  padding: 0;          /* 🔥 */
+  background: #000;
+}
+
+
+/* DARK OVERLAY + TEXT */
+.login-video-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    rgba(0,0,0,0.55),
+    rgba(0,0,0,0.35)
+  );
+  color: #fff;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-video-overlay h3 {
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.login-video-overlay ul {
+  padding-left: 18px;
+}
+
+.login-video-overlay li {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+footer {
+  background: #111;
+  color: #fff;
+  padding: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+}
+
+
+/* =========================
+   LOGIN – PREMIUM FORM STYLE
+========================= */
+
+.login-title {
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  margin-bottom: 24px;
+}
+
+/* Divider with OR */
+.login-divider {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  color: #777;
+  font-size: 13px;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #ccc;
+}
+
+.login-divider span {
+  padding: 0 12px;
+}
+
+/* Input field like screenshot */
 .login-field {
   display: flex;
   align-items: center;
   border-bottom: 1px solid #aaa;
+  padding: 8px 0;
   margin-bottom: 18px;
 }
 
 .login-field .icon {
-  margin-right: 10px;
   font-size: 14px;
-  opacity: 0.6;
+  margin-right: 10px;
+  opacity: 0.7;
 }
 
 .login-field input {
@@ -268,10 +593,11 @@ body.login-open {
   outline: none;
   background: transparent;
   width: 100%;
-  padding: 8px 0;
   font-size: 14px;
+  padding: 4px 0;
 }
 
+/* Checkbox row */
 .keep-line {
   display: flex;
   align-items: center;
@@ -280,16 +606,19 @@ body.login-open {
   margin: 14px 0 18px;
 }
 
+/* Sign in button */
 .signin {
   width: 140px;
-  padding: 10px;
+  padding: 10px 0;
   background: #ff4b6e;
   color: #fff;
   border: none;
   border-radius: 20px;
+  font-size: 13px;
   cursor: pointer;
 }
 
+/* Links */
 .login-links {
   display: flex;
   justify-content: space-between;
@@ -302,33 +631,13 @@ body.login-open {
   text-decoration: none;
 }
 
-/* =========================
-   RIGHT VIDEO PANEL
-========================= */
-.login-video {
-  width: 40%;
-  height: 100%;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.login-links a b {
+  font-weight: 600;
 }
 
-.login-video video {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-}
 
-/* =========================
-   FOOTER
-========================= */
-footer {
-  background: #111;
-  color: #fff;
-  padding: 30px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
-}
+
+
+
+
 
