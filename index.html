@@ -179,9 +179,15 @@ function closeLogin() {
 <div class="cart-modal" id="cartModal">
   <h3>Your Cart</h3>
   <div id="cartItems"></div>
-  <p><strong>Total:</strong> ₹<span id="totalPrice">0</span></p>
+  <div class="cart-total">
+  <span>Total</span>
+  <span>₹<span id="totalPrice">0</span></span>
+</div>
+
+<div class="cart-actions">
   <button class="btn primary">Checkout</button>
   <button class="btn" onclick="closeCart()">Close</button>
+</div>
 </div>
 
   
@@ -206,6 +212,7 @@ function closeLogin() {
   
 </body>
 </html>
+
 
 
 
