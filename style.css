@@ -349,7 +349,7 @@ body.login-open > *:not(.login-overlay) {
   right: -1000px;
   transform: translateY(-50%);
   width: 900px;
-  height: 280px;            /* 🔥 ~40% reduced */
+  height: 336px;            /* 🔥 ~40% reduced */
   background: #fff;
   display: flex;
   overflow: hidden;        /* 🔥 NO gaps */
@@ -383,6 +383,9 @@ body.login-open > *:not(.login-overlay) {
   width: 60%;
   padding: 24px;
   background: #d3cdc4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 /* SPLIT LAYOUT */
@@ -529,6 +532,7 @@ footer {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
 }
+
 
 
 
