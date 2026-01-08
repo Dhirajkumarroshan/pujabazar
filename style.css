@@ -8,13 +8,13 @@
 body {
   background: #fff;
   color: #222;
-  padding-top: 80px; /* height of header */
+  padding-top: 116px; /* 36px strip + ~80px header */
 }
 
 /* HEADER */
 .header {
   position: fixed;          /* 🔥 FIXED */
-  top: 0;
+  top: 36px; /* height of top strip */
   left: 0;
   width: 100%;
   background: white;
@@ -718,6 +718,47 @@ body.login-open > *:not(.login-overlay) {
 .cart-actions .primary {
   background: black;
   color: white;
+}
+
+/* =========================
+   PREMIUM TOP MOVING STRIP
+========================= */
+
+.top-strip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 36px;
+  background: #000;
+  overflow: hidden;
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+}
+
+.top-strip-track {
+  white-space: nowrap;
+  display: inline-block;
+  animation: moveText 18s linear infinite;
+}
+
+.top-strip-track span {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  padding-left: 100%;
+}
+
+/* smooth premium animation */
+@keyframes moveText {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 
