@@ -89,21 +89,27 @@ function updateCart() {
 function renderCart() {
   const items = document.getElementById("cartItems");
   let total = 0;
-  items.innerHTML += `
-  <div class="cart-row">
-    <div class="cart-info">
-      <div class="cart-name">${item.name}</div>
 
-      <div class="cart-qty">
-        <button onclick="changeQty(${item.id}, -1)">−</button>
-        <span>${item.qty}</span>
-        <button onclick="changeQty(${item.id}, 1)">+</button>
+  items.innerHTML = ""; // reset first
+
+  cart.forEach(item => {
+    total += item.price * item.qty;
+
+    items.innerHTML += `
+      <div class="cart-row">
+        <div class="cart-info">
+          <div class="cart-name">${item.name}</div>
+
+          <div class="cart-qty">
+            <button onclick="changeQty(${item.id}, -1)">−</button>
+            <span>${item.qty}</span>
+            <button onclick="changeQty(${item.id}, 1)">+</button>
+          </div>
+        </div>
+
+        <div class="cart-price">₹${item.price * item.qty}</div>
       </div>
-    </div>
-
-    <div class="cart-price">₹${item.price * item.qty}</div>
-  </div>
-`;
+    `;
   });
 
   document.getElementById("totalPrice").innerText = total;
@@ -215,6 +221,7 @@ function showQty(id, btn) {
 function hideQty(btn) {
   btn.classList.remove("has-qty");
 }
+
 
 
 
