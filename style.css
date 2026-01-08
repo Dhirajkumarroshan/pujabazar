@@ -541,6 +541,100 @@ footer {
 }
 
 
+/* =========================
+   LOGIN – PREMIUM FORM STYLE
+========================= */
+
+.login-title {
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  margin-bottom: 24px;
+}
+
+/* Divider with OR */
+.login-divider {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  color: #777;
+  font-size: 13px;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #ccc;
+}
+
+.login-divider span {
+  padding: 0 12px;
+}
+
+/* Input field like screenshot */
+.login-field {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #aaa;
+  padding: 8px 0;
+  margin-bottom: 18px;
+}
+
+.login-field .icon {
+  font-size: 14px;
+  margin-right: 10px;
+  opacity: 0.7;
+}
+
+.login-field input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-size: 14px;
+  padding: 4px 0;
+}
+
+/* Checkbox row */
+.keep-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  margin: 14px 0 18px;
+}
+
+/* Sign in button */
+.signin {
+  width: 140px;
+  padding: 10px 0;
+  background: #ff4b6e;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* Links */
+.login-links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  font-size: 13px;
+}
+
+.login-links a {
+  color: #555;
+  text-decoration: none;
+}
+
+.login-links a b {
+  font-weight: 600;
+}
+
 
 
 
