@@ -177,23 +177,35 @@ updateCart();
 function getCartButton(id) {
   const item = cart.find(p => p.id === id);
 
+  // If product NOT in cart → normal button
   if (!item) {
     return `
-      <button class="btn primary add-btn"
-        onclick="addToCart(${id}); animateAddToCart(this)">
+      <button class="btn primary add-cart-btn"
+              onclick="addToCart(${id})">
         Add to Cart
       </button>
     `;
   }
 
+  // If product IS in cart → same size, hover qty
   return `
-    <div class="qty-hover">
-      <button onclick="event.stopPropagation(); changeQty(${id}, -1)">−</button>
-      <span>${item.qty}</span>
-      <button onclick="event.stopPropagation(); changeQty(${id}, 1)">+</button>
-    </div>
+    <button class="btn primary add-cart-btn has-qty"
+            onmouseenter="showQty(${id}, this)"
+            onmouseleave="hideQty(this)"
+            onclick="addToCart(${id})">
+
+      <span class="add-text">Add to Cart</span>
+
+      <span class="qty-box">
+        <span onclick="event.stopPropagation(); changeQty(${id}, -1)">−</span>
+        <span class="qty-count" id="qty-${id}">${item.qty}</span>
+        <span onclick="event.stopPropagation(); changeQty(${id}, 1)">+</span>
+      </span>
+
+    </button>
   `;
 }
+
 
 
 
