@@ -238,6 +238,13 @@ body {
   padding: 15px;
   display: flex;
   flex-direction: column;
+  transition: transform 180ms cubic-bezier(.2,.9,.2,1), box-shadow 180ms cubic-bezier(.2,.9,.2,1);
+  transform-origin: center center;
+}
+
+.product-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
 }
 
 .product-image {
