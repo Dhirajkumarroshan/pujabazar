@@ -222,6 +222,49 @@ function hideQty(btn) {
   btn.classList.remove("has-qty");
 }
 
+/* Signup UI + API */
+function openSignup() {
+  const overlay = document.getElementById('signupOverlay');
+  overlay.style.display = 'block';
+  setTimeout(() => overlay.classList.add('active'), 50);
+}
+
+function closeSignup() {
+  const overlay = document.getElementById('signupOverlay');
+  overlay.classList.remove('active');
+  setTimeout(() => overlay.style.display = 'none', 400);
+}
+
+async function submitSignup() {
+  const name = document.getElementById('signupName').value.trim();
+  const email = document.getElementById('signupEmail').value.trim();
+  const password = document.getElementById('signupPassword').value;
+
+  if (!email || !password) {
+    alert('Please enter email and password');
+    return;
+  }
+
+  try {
+    const res = await fetch('http://localhost:3000/api/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password })
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      alert('Signup successful — you can now sign in');
+      closeSignup();
+      openLogin();
+    } else {
+      alert(data.error || 'Signup failed');
+    }
+  } catch (err) {
+    alert('Unable to reach signup server');
+  }
+}
+
 
 
 
