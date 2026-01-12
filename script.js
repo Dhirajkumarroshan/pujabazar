@@ -176,6 +176,7 @@ setInterval(() => {
  ***********************/
 renderProducts(products);
 updateCart();
+updateAuthUI();
 
 const API_BASE = 'http://localhost:3000';
 
@@ -267,6 +268,57 @@ async function submitSignup() {
   }
 }
 
+/* Session helpers */
+function saveSession(token, userId) {
+  if (token) localStorage.setItem('token', token);
+  if (userId) localStorage.setItem('userId', userId);
+  updateAuthUI();
+}
+
+function clearSession() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('userId');
+  updateAuthUI();
+}
+
+function updateAuthUI() {
+  const btn = document.getElementById('loginBtn');
+  const token = localStorage.getItem('token');
+  const userId = localStorage.getItem('userId');
+  if (!btn) return;
+  if (token) {
+    btn.textContent = 'Logout';
+    btn.onclick = () => { if (confirm('Logout?')) clearSession(); };
+    btn.classList.add('primary');
+  } else {
+    btn.textContent = 'Login';
+    btn.onclick = openLogin;
+    btn.classList.remove('primary');
+  }
+}
+
+/* Email/password login */
+async function submitLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  if (!email || !password) { alert('Please enter email and password'); return; }
+  try {
+    const res = await fetch(API_BASE + '/api/login', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password })
+    });
+    const data = await res.json();
+    if (res.ok && data.ok) {
+      saveSession(data.token, data.id);
+      alert('Login successful');
+      closeLogin();
+    } else {
+      alert(data.error || 'Login failed');
+    }
+  } catch (err) {
+    alert('Unable to reach login server');
+  }
+}
+
 /* WhatsApp OTP login (frontend) */
 function openWhatsAppLogin() {
   const overlay = document.getElementById('whatsappModal');
@@ -320,9 +372,10 @@ async function verifyWhatsAppOtp() {
     });
     const data = await res.json();
     if (res.ok) {
-      alert('Login successful');
-      closeWhatsAppLogin();
-      // TODO: set client-side session or update UI
+        // save token if provided and update UI
+        if (data.token) saveSession(data.token, data.id);
+        alert('Login successful');
+        closeWhatsAppLogin();
     } else {
       alert(data.error || 'Invalid code');
     }

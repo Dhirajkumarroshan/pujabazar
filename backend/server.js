@@ -46,6 +46,10 @@ function generateOtp() {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
+function generateToken() {
+  return crypto.randomBytes(24).toString('hex');
+}
+
 function sendWhatsAppMessage(toPhone, message, cb) {
   const accountSid = process.env.TWILIO_ACCOUNT_SID;
   const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -178,8 +182,9 @@ const server = http.createServer(async (req, res) => {
         return res.end(JSON.stringify({ error: 'Invalid credentials' }));
       }
 
+      const token = generateToken();
       res.writeHead(200, { 'Content-Type': 'application/json' });
-      return res.end(JSON.stringify({ ok: true, id: user.id }));
+      return res.end(JSON.stringify({ ok: true, id: user.id, token }));
     } catch (err) {
       res.writeHead(500, { 'Content-Type': 'application/json' });
       return res.end(JSON.stringify({ error: 'Invalid request' }));
@@ -259,8 +264,9 @@ const server = http.createServer(async (req, res) => {
       delete otps[phone];
       writeOtps(otps);
 
+      const token = generateToken();
       res.writeHead(200, { 'Content-Type': 'application/json' });
-      return res.end(JSON.stringify({ ok: true, id: user.id }));
+      return res.end(JSON.stringify({ ok: true, id: user.id, token }));
     } catch (err) {
       res.writeHead(500, { 'Content-Type': 'application/json' });
       return res.end(JSON.stringify({ error: 'Invalid request' }));
