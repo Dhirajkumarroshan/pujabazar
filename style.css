@@ -421,6 +421,13 @@ body.login-open > *:not(.login-overlay) {
   cursor: pointer;
 }
 
+/* Stack social buttons vertically */
+.login-social {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 .login-whatsapp {
   margin-top: 12px;
 }
