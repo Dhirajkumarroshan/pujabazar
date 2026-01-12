@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "id": "803f87f65607ae09",
+    "name": "Test User",
+    "email": "test+1@example.com",
+    "salt": "86a972dea33cf637424bc458298b58b1",
+    "hash": "53a3293a3f81013483b7817c710a57251e4f1cd94ae81dbc39dac615f7a51c7acf9a8d46721f67802c71f90fb5fca7ff4e3e020b42b2d9d5b70d8c73d1bbc177",
+    "createdAt": "2026-01-12T08:44:38.957Z"
+  }
+]
