@@ -1,0 +1,19 @@
+# Runtime data files
+backend/data/*.json
+
+# Node modules (if any)
+node_modules/
+
+# Environment variables
+.env
+.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
