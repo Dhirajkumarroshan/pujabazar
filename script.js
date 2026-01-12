@@ -177,6 +177,8 @@ setInterval(() => {
 renderProducts(products);
 updateCart();
 
+const API_BASE = 'http://localhost:3000';
+
 function getCartButton(id) {
   const item = cart.find(p => p.id === id);
 
@@ -262,6 +264,70 @@ async function submitSignup() {
     }
   } catch (err) {
     alert('Unable to reach signup server');
+  }
+}
+
+/* WhatsApp OTP login (frontend) */
+function openWhatsAppLogin() {
+  const overlay = document.getElementById('whatsappModal');
+  overlay.style.display = 'block';
+  setTimeout(() => overlay.classList.add('active'), 50);
+}
+
+function closeWhatsAppLogin() {
+  const overlay = document.getElementById('whatsappModal');
+  overlay.classList.remove('active');
+  setTimeout(() => overlay.style.display = 'none', 300);
+}
+
+async function requestWhatsAppOtp() {
+  const phone = document.getElementById('whatsappPhone').value.trim();
+  if (!phone) { alert('Please enter phone with country code'); return; }
+  const btn = document.getElementById('requestOtpBtn');
+  btn.disabled = true;
+  btn.innerText = 'Sending...';
+  try {
+    const res = await fetch(API_BASE + '/api/login/whatsapp/request', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phone })
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      alert(data.error || 'Failed to request OTP');
+      btn.disabled = false; btn.innerText = 'Request OTP';
+      return;
+    }
+    // show OTP input
+    document.getElementById('otpArea').style.display = 'block';
+    // if API returned otp (dev), show it to user
+    if (data.otp) {
+      alert('Dev OTP: ' + data.otp);
+      document.getElementById('whatsappCode').value = data.otp;
+    }
+    btn.innerText = 'OTP Sent';
+  } catch (err) {
+    alert('Unable to reach server');
+    btn.disabled = false; btn.innerText = 'Request OTP';
+  }
+}
+
+async function verifyWhatsAppOtp() {
+  const phone = document.getElementById('whatsappPhone').value.trim();
+  const code = document.getElementById('whatsappCode').value.trim();
+  if (!phone || !code) { alert('Please enter phone and code'); return; }
+  try {
+    const res = await fetch(API_BASE + '/api/login/whatsapp/verify', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phone, code })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      alert('Login successful');
+      closeWhatsAppLogin();
+      // TODO: set client-side session or update UI
+    } else {
+      alert(data.error || 'Invalid code');
+    }
+  } catch (err) {
+    alert('Unable to reach server');
   }
 }
 

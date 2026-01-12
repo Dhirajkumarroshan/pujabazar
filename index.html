@@ -31,6 +31,13 @@
           </button>
         </div>
 
+        <!-- WHATSAPP -->
+        <div class="login-whatsapp">
+          <button class="whatsapp-login" onclick="openWhatsAppLogin()">
+            ☎ SIGN IN WITH WHATSAPP
+          </button>
+        </div>
+
         <!-- OR -->
         <div class="login-divider">
           <span>OR</span>
@@ -127,6 +134,33 @@ function closeLogin() {
       <div style="margin-top:12px; font-size:13px;">
         Already have an account? <a href="#" onclick="closeSignup(); openLogin(); return false">Sign in</a>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- WHATSAPP OTP OVERLAY -->
+<div id="whatsappModal" class="login-overlay" style="display:none">
+  <div class="whatsapp-panel">
+    <span class="login-close" onclick="closeWhatsAppLogin()">×</span>
+    <div style="padding:20px; width:320px;">
+      <h3 class="login-title">Sign in with WhatsApp</h3>
+
+      <div class="login-field">
+        <span class="icon">📱</span>
+        <input id="whatsappPhone" type="text" placeholder="Phone (with +country) e.g. +1555...">
+      </div>
+
+      <button class="signin" id="requestOtpBtn" onclick="requestWhatsAppOtp()">Request OTP</button>
+
+      <div id="otpArea" style="margin-top:12px; display:none">
+        <div class="login-field">
+          <span class="icon">🔐</span>
+          <input id="whatsappCode" type="text" placeholder="Enter OTP code">
+        </div>
+        <button class="signin" onclick="verifyWhatsAppOtp()">Verify OTP</button>
+      </div>
+
+      <div style="margin-top:12px; font-size:13px; color:#666">We will send a one-time code via WhatsApp. For development the code will be returned by the API.</div>
     </div>
   </div>
 </div>
