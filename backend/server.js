@@ -96,6 +96,37 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
+  if (req.method === 'POST' && req.url === '/api/login') {
+    try {
+      const body = await parseJSONBody(req);
+      const { email, password } = body || {};
+
+      if (!email || !password) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: 'email and password required' }));
+      }
+
+      const users = readUsers();
+      const user = users.find(u => u.email === email);
+      if (!user) {
+        res.writeHead(401, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: 'Invalid credentials' }));
+      }
+
+      const { hash } = hashPassword(password, user.salt);
+      if (hash !== user.hash) {
+        res.writeHead(401, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: 'Invalid credentials' }));
+      }
+
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify({ ok: true, id: user.id }));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify({ error: 'Invalid request' }));
+    }
+  }
+
   // Fallback
   res.writeHead(404, { 'Content-Type': 'application/json' });
   res.end(JSON.stringify({ error: 'Not found' }));
