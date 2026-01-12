@@ -22,5 +22,14 @@
     "salt": "fb0a80c14ea1218abc3284f1784dd1e3",
     "hash": "45cd799d0f5718a5e666f794f01bc2f4c696cc81f78e9170e6bc018aa4f7291d880b96e4a9d07e7ef80bbd138af480fc9eaac091b35397d58ac3da028d377539",
     "createdAt": "2026-01-12T08:51:14.341Z"
+  },
+  {
+    "id": "9c99580e64d0b23a",
+    "name": "",
+    "email": "+15551234567",
+    "phone": "+15551234567",
+    "salt": "",
+    "hash": "",
+    "createdAt": "2026-01-12T09:27:34.335Z"
   }
 ]
