@@ -1,0 +1,168 @@
+{
+  "theme": "Light",
+  "archetype": "Archetype 1 (Organic & Earthy) - Premium Heritage Variant",
+  "brand_identity": {
+    "vibe": "Reverent, Authentic, Premium, Trustworthy, Minimalist",
+    "forbidden_elements": [
+      "Generic orange/saffron everywhere",
+      "Purple/teal gradients",
+      "Inter/Roboto fonts",
+      "Cluttered layouts",
+      "Default Vercel/Stripe look"
+    ]
+  },
+  "colors": {
+    "background": {
+      "primary": "#FDFBF7",
+      "secondary": "#F3F1E9",
+      "tertiary": "#EBE8DF"
+    },
+    "text": {
+      "primary": "#1A1916",
+      "secondary": "#5C5950",
+      "muted": "#8A877B",
+      "inverse": "#FDFBF7"
+    },
+    "brand": {
+      "primary": "#8C3B30",
+      "primary_hover": "#6C2C23",
+      "secondary": "#D39744",
+      "secondary_hover": "#B37D35",
+      "accent": "#2B3F36",
+      "success": "#375945",
+      "error": "#963B3A"
+    },
+    "admin": {
+      "background": "#FDFBF7",
+      "sidebar": "#F3F1E9",
+      "card": "#FFFFFF",
+      "border": "#E2DFD3"
+    }
+  },
+  "typography": {
+    "fonts": {
+      "heading": "'Cormorant Garamond', serif",
+      "body": "'Outfit', sans-serif"
+    },
+    "scales": {
+      "h1": "text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-none font-medium",
+      "h2": "text-3xl sm:text-4xl tracking-tight leading-none font-medium",
+      "h3": "text-2xl sm:text-3xl leading-snug font-medium",
+      "h4": "text-xl sm:text-2xl leading-snug font-medium",
+      "body": "text-base leading-relaxed text-[#5C5950]",
+      "small": "text-sm leading-normal text-[#5C5950]",
+      "overline": "text-xs tracking-[0.2em] uppercase font-semibold text-[#8C3B30]"
+    }
+  },
+  "layout_spacing": {
+    "container_padding": "px-6 md:px-12 lg:px-24 max-w-7xl mx-auto",
+    "section_gap": "py-24 md:py-32",
+    "border_radius": "rounded-none md:rounded-lg",
+    "shadows": {
+      "soft": "shadow-[0_4px_24px_rgba(26,25,22,0.04)]",
+      "medium": "shadow-[0_8px_32px_rgba(26,25,22,0.08)]",
+      "admin_card": "shadow-sm border border-[#E2DFD3]"
+    }
+  },
+  "components_strategy": {
+    "header": {
+      "style": "Glassmorphism (Crystal Variant)",
+      "classes": "sticky top-0 z-50 bg-[#FDFBF7]/90 backdrop-blur-xl border-b border-[#E2DFD3] transition-all duration-300",
+      "mega_nav": "Clean typography, generous padding (p-8). Use hover to show dropdowns with subcategories."
+    },
+    "announcement_strip": {
+      "style": "Editorial Ribbon",
+      "classes": "bg-[#8C3B30] text-[#FDFBF7] text-xs py-2 px-4 flex items-center justify-center font-outfit tracking-wider uppercase",
+      "animation": "Static or extremely slow continuous marquee"
+    },
+    "hero_slider": {
+      "style": "Immersive Large Inset",
+      "classes": "relative w-full h-[70vh] md:h-[80vh] overflow-hidden rounded-xl",
+      "overlay": "bg-gradient-to-r from-[#1A1916]/70 via-[#1A1916]/30 to-transparent absolute inset-0 z-10",
+      "content_alignment": "absolute z-20 top-1/2 -translate-y-1/2 left-8 md:left-16 max-w-xl text-left"
+    },
+    "product_cards": {
+      "style": "Flat, premium, minimal borders.",
+      "classes": "group relative flex flex-col gap-3 bg-transparent cursor-pointer",
+      "image_container": "aspect-[4/5] bg-[#F3F1E9] overflow-hidden rounded-lg relative",
+      "image_hover": "transition-transform duration-700 group-hover:scale-105",
+      "hover_effect": "Add-to-cart button + quantity stepper slides up inside the image container on hover (absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0)"
+    },
+    "cart_drawer": {
+      "style": "Solid Background",
+      "classes": "fixed inset-y-0 right-0 w-full md:w-[480px] bg-[#FDFBF7] shadow-2xl p-6 flex flex-col z-[60]"
+    },
+    "admin_dashboard": {
+      "style": "Grid Borders",
+      "classes": "bg-[#FDFBF7] text-[#1A1916] min-h-screen",
+      "sidebar": "w-64 border-r border-[#E2DFD3] bg-[#F3F1E9] p-6",
+      "cards": "bg-[#FFFFFF] border border-[#E2DFD3] rounded-xl p-6 shadow-sm",
+      "tables": "Shadcn standard but customized: header bg-[#F3F1E9] text-[#5C5950], row text-[#1A1916], subtle borders"
+    },
+    "buttons": {
+      "primary": "bg-[#8C3B30] text-[#FDFBF7] hover:bg-[#6C2C23] px-8 py-3 rounded-full font-medium transition-colors duration-200",
+      "secondary": "bg-transparent text-[#1A1916] border border-[#1A1916] hover:bg-[#1A1916] hover:text-[#FDFBF7] px-8 py-3 rounded-full transition-colors duration-200"
+    }
+  },
+  "media": {
+    "hero": [
+      {
+        "url": "https://static.prod-images.emergentagent.com/jobs/07b6612e-c1bd-4caa-b48c-faa0ca811820/images/4d0278b25606ce79290a5b673dc4745ba8247d3e78da1f5f90cebb6751aba411.png",
+        "description": "Hero Puja Thali - Cinematic, ultra-premium wide photograph of authentic Indian puja items"
+      },
+      {
+        "url": "https://static.prod-images.emergentagent.com/jobs/07b6612e-c1bd-4caa-b48c-faa0ca811820/images/676ea3207868c334305cdec27c295c055def2d8a107425c75e7146531611bdcf.png",
+        "description": "Hero Brass Diya - Minimalist wide shot of a glowing brass diya"
+      },
+      {
+        "url": "https://static.prod-images.emergentagent.com/jobs/07b6612e-c1bd-4caa-b48c-faa0ca811820/images/4a7e7ffcbfc60f92346e2084eeca0c5d9083a9353ba43e32759ba1ab9ed13af3.png",
+        "description": "Hero Murti - Serene, beautifully lit wide photo of a Ganesha murti"
+      }
+    ],
+    "products": [
+      {
+        "url": "https://images.unsplash.com/photo-1757308530438-4e2340a6475f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDF8MHwxfHNlYXJjaHwyfHxicmFzcyUyMGRpeWF8ZW58MHx8fHwxNzc3NzIzNDA3fDA&ixlib=rb-4.1.0&q=85",
+        "category": "Puja Samagri",
+        "title": "Premium Brass Diya",
+        "description": "A tiered oil lamp with many flames"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1761295908075-065ac2db0f5c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDF8MHwxfHNlYXJjaHwxfHxicmFzcyUyMGRpeWF8ZW58MHx8fHwxNzc3NzIzNDA3fDA&ixlib=rb-4.1.0&q=85",
+        "category": "Puja Samagri",
+        "title": "Brass Diya Plate",
+        "description": "Hand lighting oil lamps on a brass plate."
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1541795083-1b160cf4f3d7?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzNDR8MHwxfHNlYXJjaHwyfHxpbmNlbnNlJTIwc3RpY2tzfGVufDB8fHx8MTc3NzcyMzQwNnww&ixlib=rb-4.1.0&q=85",
+        "category": "Incense Sticks",
+        "title": "Sandalwood Incense",
+        "description": "Premium hand-rolled incense sticks"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1650809652935-2e5002ba40bf?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMzN8MHwxfHNlYXJjaHwxfHxydWRyYWtzaGF8ZW58MHx8fHwxNzc3NzIzNDA2fDA&ixlib=rb-4.1.0&q=85",
+        "category": "Rudraksha",
+        "title": "Authentic Rudraksha Mala",
+        "description": "108 bead Rudraksha mala for meditation"
+      }
+    ]
+  },
+  "testing": {
+    "attributes": "All interactive elements MUST include data-testid. Example: data-testid='add-to-cart-btn'"
+  },
+  "icons": {
+    "library": "lucide-react",
+    "stroke_width": 1.5,
+    "usage": "Use minimalist, thin stroke icons for premium feel."
+  },
+  "instructions_to_main_agent": [
+    "Install and configure Google Fonts: 'Cormorant Garamond' and 'Outfit'",
+    "Apply Archetype 1 (Organic & Earthy) using the exact color codes provided.",
+    "Do NOT use pure orange or saffron. Use the Muted Terracotta (#8C3B30) as primary CTA.",
+    "Do NOT use standard Vercel/Shadcn components without heavily overriding colors and radii to match the provided layout_spacing and colors.",
+    "Implement the Add-to-Cart hover interaction on product cards exactly as described in components_strategy > product_cards.",
+    "For the Admin dashboard, stick to the clean 'Grid Borders' style rather than excessive soft shadows.",
+    "Ensure the hero slider rotates between the 3 generated hero images provided.",
+    "Use the provided product URLs to seed the initial database or mock data.",
+    "Ensure all interactive elements have data-testid attributes."
+  ]
+}
