@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  background: #FDFBF7;
+  color: #1A1916;
+  font-family: 'Outfit', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; letter-spacing: -0.01em; }
+
+::selection { background: #8C3B30; color: #FDFBF7; }
+
+/* Subtle scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: #E2DFD3; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #8A877B; }
+
+/* Marquee */
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee-track { display: inline-flex; min-width: 200%; animation: marquee 35s linear infinite; }
+
+/* Fade-in */
+@keyframes fadein { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.fade-in { animation: fadein .5s ease both; }
+
+/* Hero crossfade */
+.hero-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease-in-out; }
+.hero-slide.active { opacity: 1; }
