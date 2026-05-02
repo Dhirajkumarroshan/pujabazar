@@ -692,9 +692,9 @@ async def startup():
              "category": "Murti", "description": "Five-mukhi Rudraksha mala for daily japa.", "stock": 90, "featured": True},
             {"name": "Sandalwood Dhoop Cones", "price": 199, "mrp": 299, "image": "https://images.unsplash.com/photo-1541795083-1b160cf4f3d7?crop=entropy&cs=srgb&fm=jpg&q=85",
              "category": "Puja Samagri", "description": "Pure sandalwood dhoop cones — 30 pack.", "stock": 200, "featured": False},
-            {"name": "Brass Ganesha Murti", "price": 1299, "mrp": 1999, "image": "https://customer-assets.emergentagent.com/job_07b6612e-c1bd-4caa-b48c-faa0ca811820/artifacts/images/hero3.jpg",
+            {"name": "Brass Ganesha Murti", "price": 1299, "mrp": 1999, "image": "/images/hero3.jpg",
              "category": "Murti", "description": "Hand-cast brass Ganesha — 6 inch.", "stock": 40, "featured": False},
-            {"name": "Marigold Toran (Door Hanging)", "price": 349, "mrp": 549, "image": "https://customer-assets.emergentagent.com/job_07b6612e-c1bd-4caa-b48c-faa0ca811820/artifacts/images/hero5.jpg",
+            {"name": "Marigold Toran (Door Hanging)", "price": 349, "mrp": 549, "image": "/images/hero5.jpg",
              "category": "Decorative", "description": "Festive marigold toran for entrance — auspicious decor.", "stock": 150, "featured": False},
         ]
         for s in seed:
