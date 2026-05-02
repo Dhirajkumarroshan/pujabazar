@@ -599,20 +599,32 @@ async def admin_stats(_: dict = Depends(require_admin)):
 
 @api.get("/admin/customers")
 async def admin_customers(_: dict = Depends(require_admin)):
-    cur = db.users.find({"role": "customer"}, {"_id": 0, "password_hash": 0}).sort("created_at", -1)
-    customers = await cur.to_list(length=1000)
-    # attach order count + total spend
-    for c in customers:
-        order_count = await db.orders.count_documents({"user_id": c["user_id"]})
-        spend = 0
-        async for r in db.orders.aggregate([
-            {"$match": {"user_id": c["user_id"], "payment_status": {"$in": ["paid", "cod"]}}},
-            {"$group": {"_id": None, "s": {"$sum": "$total"}}},
-        ]):
-            spend = r.get("s", 0)
-        c["order_count"] = order_count
-        c["total_spend"] = spend
-    return customers
+    pipeline = [
+        {"$match": {"role": "customer"}},
+        {"$lookup": {
+            "from": "orders",
+            "let": {"uid": "$user_id"},
+            "pipeline": [
+                {"$match": {"$expr": {"$eq": ["$user_id", "$$uid"]}}},
+                {"$group": {
+                    "_id": None,
+                    "order_count": {"$sum": 1},
+                    "total_spend": {"$sum": {
+                        "$cond": [{"$in": ["$payment_status", ["paid", "cod"]]}, "$total", 0]
+                    }},
+                }},
+            ],
+            "as": "stats",
+        }},
+        {"$addFields": {
+            "order_count": {"$ifNull": [{"$arrayElemAt": ["$stats.order_count", 0]}, 0]},
+            "total_spend": {"$ifNull": [{"$arrayElemAt": ["$stats.total_spend", 0]}, 0]},
+        }},
+        {"$project": {"_id": 0, "password_hash": 0, "stats": 0}},
+        {"$sort": {"created_at": -1}},
+        {"$limit": 1000},
+    ]
+    return await db.users.aggregate(pipeline).to_list(length=1000)
 
 @api.get("/admin/export/orders.csv")
 async def export_orders_csv(_: dict = Depends(require_admin)):
