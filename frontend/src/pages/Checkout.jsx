@@ -88,12 +88,12 @@ export default function Checkout() {
           <h2 className="font-serif text-3xl mb-6">Shipping address</h2>
           <div className="grid md:grid-cols-2 gap-4">
             <input data-testid="addr-name" required value={addr.full_name} onChange={update("full_name")} placeholder="Full name" className="input" />
-            <input data-testid="addr-phone" required value={addr.phone} onChange={update("phone")} placeholder="Phone" className="input" />
+            <input data-testid="addr-phone" required value={addr.phone} onChange={update("phone")} placeholder="Phone (10 digits)" pattern="[6-9][0-9]{9}" title="10-digit Indian mobile number starting with 6-9" className="input" />
             <input data-testid="addr-line1" required value={addr.line1} onChange={update("line1")} placeholder="Address line 1" className="input md:col-span-2" />
             <input data-testid="addr-line2" value={addr.line2} onChange={update("line2")} placeholder="Address line 2 (optional)" className="input md:col-span-2" />
             <input data-testid="addr-city" required value={addr.city} onChange={update("city")} placeholder="City" className="input" />
             <input data-testid="addr-state" required value={addr.state} onChange={update("state")} placeholder="State" className="input" />
-            <input data-testid="addr-pincode" required value={addr.pincode} onChange={update("pincode")} placeholder="PIN code" className="input" />
+            <input data-testid="addr-pincode" required value={addr.pincode} onChange={update("pincode")} placeholder="PIN code (6 digits)" pattern="[0-9]{6}" title="6-digit PIN code" className="input" />
           </div>
         </div>
 

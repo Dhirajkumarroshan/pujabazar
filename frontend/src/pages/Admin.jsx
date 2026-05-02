@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, NavLink, Routes, Route, Navigate } from "react-router-dom";
-import { LayoutGrid, Package, ShoppingBag, LogOut, Plus, Pencil, Trash2 } from "lucide-react";
+import { LayoutGrid, Package, ShoppingBag, LogOut, Plus, Pencil, Trash2, Users, Download } from "lucide-react";
 import { toast } from "sonner";
-import { api, formatErr, inr } from "../lib/api";
+import { api, formatErr, inr, API } from "../lib/api";
 import { useAuth } from "../lib/auth";
 
 function Sidebar() {
@@ -15,6 +15,7 @@ function Sidebar() {
       <NavLink end to="/admin" data-testid="adm-nav-dashboard" className={cls}><LayoutGrid size={16} strokeWidth={1.5}/>Dashboard</NavLink>
       <NavLink to="/admin/products" data-testid="adm-nav-products" className={cls}><Package size={16} strokeWidth={1.5}/>Products</NavLink>
       <NavLink to="/admin/orders" data-testid="adm-nav-orders" className={cls}><ShoppingBag size={16} strokeWidth={1.5}/>Orders</NavLink>
+      <NavLink to="/admin/customers" data-testid="adm-nav-customers" className={cls}><Users size={16} strokeWidth={1.5}/>Customers</NavLink>
       <button onClick={logout} className="mt-auto flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-ink-700 hover:bg-bone-200">
         <LogOut size={16} strokeWidth={1.5}/>Sign out
       </button>
@@ -42,6 +43,8 @@ function Dashboard() {
         <StatCard testid="stat-orders" label="Orders" value={stats?.total_orders ?? "—"} />
         <StatCard testid="stat-aov" label="Avg order value" value={inr(stats?.aov || 0)} />
         <StatCard testid="stat-customers" label="Customers" value={stats?.customers ?? "—"} />
+        <StatCard testid="stat-products" label="Products" value={stats?.products ?? "—"} />
+        <StatCard testid="stat-low-stock" label="Low stock (<10)" value={stats?.low_stock ?? "—"} />
       </div>
     </div>
   );
@@ -101,7 +104,7 @@ function Products() {
                 </td>
                 <td className="p-4 text-ink-700">{p.category}</td>
                 <td className="p-4 text-right">{inr(p.price)}</td>
-                <td className="p-4 text-right">{p.stock}</td>
+                <td className={`p-4 text-right ${p.stock < 10 ? "text-terra-600 font-medium" : ""}`}>{p.stock}</td>
                 <td className="p-4 text-right whitespace-nowrap">
                   <button data-testid={`adm-edit-${p.product_id}`} onClick={() => setEditing(p)} className="p-2 hover:text-terra-600"><Pencil size={16} strokeWidth={1.5}/></button>
                   <button data-testid={`adm-del-${p.product_id}`} onClick={() => del(p.product_id)} className="p-2 hover:text-terra-600"><Trash2 size={16} strokeWidth={1.5}/></button>
@@ -143,16 +146,23 @@ function Products() {
 
 function Orders() {
   const [list, setList] = useState([]);
+  const [detail, setDetail] = useState(null);
   const load = () => api.get("/admin/orders").then((r) => setList(r.data));
   useEffect(() => { load(); }, []);
   const setStatus = async (id, status) => {
     try { await api.put(`/admin/orders/${id}/status`, { status }); toast.success("Updated"); load(); }
     catch (err) { toast.error(formatErr(err)); }
   };
+  const csvHref = `${API}/admin/export/orders.csv`;
 
   return (
     <div className="p-8">
-      <h1 className="font-serif text-4xl mb-6">Orders</h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="font-serif text-4xl">Orders</h1>
+        <a data-testid="adm-csv-export" href={csvHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-ink-900 text-ink-900 hover:bg-ink-900 hover:text-bone-50 text-sm">
+          <Download size={16} strokeWidth={1.5}/> Export CSV
+        </a>
+      </div>
       <div className="bg-white border border-bone-300 rounded-xl overflow-hidden">
         <table className="w-full text-sm">
           <thead className="bg-bone-100 text-ink-700">
@@ -162,6 +172,7 @@ function Orders() {
               <th className="text-left p-4">Payment</th>
               <th className="text-right p-4">Total</th>
               <th className="text-left p-4">Status</th>
+              <th className="p-4"></th>
             </tr>
           </thead>
           <tbody>
@@ -176,10 +187,82 @@ function Orders() {
                     {["pending","confirmed","shipped","delivered","cancelled"].map(s=> <option key={s}>{s}</option>)}
                   </select>
                 </td>
+                <td className="p-4 text-right">
+                  <button data-testid={`adm-view-${o.order_id}`} onClick={() => setDetail(o)} className="text-sm text-terra-600 underline">View</button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
+      </div>
+
+      {detail && (
+        <div className="fixed inset-0 z-[80] bg-ink-900/60 flex items-center justify-center px-4" onClick={() => setDetail(null)}>
+          <div className="w-full max-w-2xl bg-white rounded-2xl p-6 max-h-[90vh] overflow-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-start justify-between mb-4">
+              <div>
+                <div className="text-[10px] uppercase tracking-[0.25em] text-ink-500">Order</div>
+                <h3 className="font-serif text-2xl font-mono">{detail.order_id}</h3>
+              </div>
+              <button onClick={() => setDetail(null)} className="text-ink-500 text-sm">Close ✕</button>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-4 text-sm mb-5">
+              <div><div className="text-ink-500 text-xs uppercase">Customer</div>{detail.address?.full_name}<div className="text-ink-500 text-xs">{detail.address?.phone}</div><div className="text-ink-500 text-xs">{detail.user_email}</div></div>
+              <div><div className="text-ink-500 text-xs uppercase">Address</div>{detail.address?.line1}{detail.address?.line2 ? `, ${detail.address.line2}` : ""}<div>{detail.address?.city}, {detail.address?.state} - {detail.address?.pincode}</div></div>
+              <div><div className="text-ink-500 text-xs uppercase">Payment</div>{detail.payment_method} · {detail.payment_status}</div>
+              <div><div className="text-ink-500 text-xs uppercase">Status</div>{detail.status}</div>
+            </div>
+            <div className="border-t border-bone-300 pt-4 space-y-2">
+              {detail.items?.map((i) => (
+                <div key={i.product_id} className="flex justify-between text-sm">
+                  <span>{i.name} × {i.qty}</span>
+                  <span>{inr(i.line_total || i.price * i.qty)}</span>
+                </div>
+              ))}
+              <div className="flex justify-between text-sm border-t pt-2"><span>Subtotal</span><span>{inr(detail.subtotal)}</span></div>
+              <div className="flex justify-between text-sm"><span>Shipping</span><span>{detail.shipping ? inr(detail.shipping) : "Free"}</span></div>
+              {detail.discount > 0 && <div className="flex justify-between text-sm text-forest-600"><span>Discount</span><span>− {inr(detail.discount)}</span></div>}
+              <div className="flex justify-between font-serif text-xl"><span>Total</span><span>{inr(detail.total)}</span></div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Customers() {
+  const [list, setList] = useState([]);
+  useEffect(() => { api.get("/admin/customers").then((r) => setList(r.data)).catch(()=>{}); }, []);
+  return (
+    <div className="p-8">
+      <h1 className="font-serif text-4xl mb-6">Customers</h1>
+      <div className="bg-white border border-bone-300 rounded-xl overflow-hidden">
+        <table className="w-full text-sm">
+          <thead className="bg-bone-100 text-ink-700">
+            <tr>
+              <th className="text-left p-4">Name</th>
+              <th className="text-left p-4">Email</th>
+              <th className="text-left p-4">Auth</th>
+              <th className="text-right p-4">Orders</th>
+              <th className="text-right p-4">Spend</th>
+              <th className="text-left p-4">Joined</th>
+            </tr>
+          </thead>
+          <tbody>
+            {list.map((c) => (
+              <tr key={c.user_id} data-testid={`adm-customer-${c.user_id}`} className="border-t border-bone-300">
+                <td className="p-4">{c.name || "—"}</td>
+                <td className="p-4 text-ink-700">{c.email}</td>
+                <td className="p-4 text-ink-500 capitalize">{c.auth_provider}</td>
+                <td className="p-4 text-right">{c.order_count}</td>
+                <td className="p-4 text-right">{inr(c.total_spend)}</td>
+                <td className="p-4 text-ink-500 text-xs">{c.created_at ? new Date(c.created_at).toLocaleDateString() : "—"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {list.length === 0 && <div className="p-8 text-center text-ink-500">No customers yet.</div>}
       </div>
     </div>
   );
@@ -194,6 +277,7 @@ export default function Admin() {
           <Route index element={<Dashboard />} />
           <Route path="products" element={<Products />} />
           <Route path="orders" element={<Orders />} />
+          <Route path="customers" element={<Customers />} />
           <Route path="*" element={<Navigate to="/admin" replace />} />
         </Routes>
       </div>

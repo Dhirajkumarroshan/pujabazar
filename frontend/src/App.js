@@ -7,13 +7,17 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import CartDrawer from "./components/CartDrawer";
 import AuthModalHost from "./components/AuthModalHost";
+import ErrorBoundary from "./components/ErrorBoundary";
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
+import ProductDetail from "./pages/ProductDetail";
 import Checkout from "./pages/Checkout";
 import OrderSuccess from "./pages/OrderSuccess";
 import Account from "./pages/Account";
 import Admin from "./pages/Admin";
 import AuthCallback from "./pages/AuthCallback";
+import Legal from "./pages/Legal";
+import NotFound from "./pages/NotFound";
 
 function Protected({ children, adminOnly = false }) {
   const { user, checking } = useAuth();
@@ -26,7 +30,6 @@ function Protected({ children, adminOnly = false }) {
 
 function Shell() {
   const location = useLocation();
-  // If we land with #session_id=... handle it before normal routes
   if (typeof window !== "undefined" && window.location.hash?.includes("session_id=")) {
     return <AuthCallback />;
   }
@@ -35,16 +38,20 @@ function Shell() {
     <div className="min-h-screen flex flex-col bg-bone-50">
       {!isAdmin && <Header />}
       <main className="flex-1">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/shop" element={<Shop />} />
-          <Route path="/shop/:category" element={<Shop />} />
-          <Route path="/checkout" element={<Protected><Checkout /></Protected>} />
-          <Route path="/order/:orderId" element={<Protected><OrderSuccess /></Protected>} />
-          <Route path="/account" element={<Protected><Account /></Protected>} />
-          <Route path="/admin/*" element={<Protected adminOnly><Admin /></Protected>} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+        <ErrorBoundary>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/shop" element={<Shop />} />
+            <Route path="/shop/:category" element={<Shop />} />
+            <Route path="/product/:productId" element={<ProductDetail />} />
+            <Route path="/legal/:slug" element={<Legal />} />
+            <Route path="/checkout" element={<Protected><Checkout /></Protected>} />
+            <Route path="/order/:orderId" element={<Protected><OrderSuccess /></Protected>} />
+            <Route path="/account" element={<Protected><Account /></Protected>} />
+            <Route path="/admin/*" element={<Protected adminOnly><Admin /></Protected>} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </ErrorBoundary>
       </main>
       {!isAdmin && <Footer />}
       <CartDrawer />

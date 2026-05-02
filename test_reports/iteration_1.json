@@ -1,0 +1,39 @@
+{
+  "summary": "Full backend + frontend production-readiness pass on PujaBazar.in. 31/31 backend pytest cases PASSED including health, products (filter/search/sort/range/404), auth (register/login/me/logout, duplicate, wrong-pw, unauthenticated), checkout COD with stock decrement, razorpay mock=true (test_mode), insufficient stock 400, admin cancel restores stock, webhook ok:false (no secret), admin RBAC (401/403), admin stats/orders/order-detail/customers/CSV export, full admin product CRUD. Frontend critical flows verified: hero slider height h-[78vh] min-h-[520px] PRESERVED, product card click navigates to PDP, add-to-cart on card does NOT navigate (preventDefault works), shop filters present, mobile hamburger menu opens slide-over, all 4 legal pages render, NotFound page renders for unknown route, customer login + add-to-cart + cart drawer + checkout COD redirects to /order/:id success page, admin login navigates Dashboard/Products/Orders/Customers, CSV export link points to /api/admin/export/orders.csv, admin order View detail buttons present.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Home / Admin Products list", "issues": ["Two product images broken on home and admin: 'Brass Ganesha Murti' and 'Marigold Toran (Door Hanging)' use https://customer-assets.emergentagent.com/job_07b6612e-c1bd-4caa-b48c-faa0ca811820/artifacts/images/hero3.jpg and hero5.jpg respectively — these URLs return broken thumbnails. Other hero images from static.prod-images.emergentagent.com load fine. Replace those two seed product images with reachable URLs (e.g., move to /images/ assets or unsplash)."]}
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/backend_test.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [
+    "Replace 2 broken product seed image URLs (Brass Ganesha Murti, Marigold Toran) — currently using customer-assets.emergentagent.com which is not loading; the seed runs only on empty DB so updating server.py seed alone won't fix existing rows — also update those rows in DB or delete & re-insert.",
+    "Optional: silence React Router v6 future-flag warnings by enabling v7_startTransition / v7_relativeSplatPath flags."
+  ],
+  "critical_code_review_comments": [
+    "server.py uses deprecated FastAPI @app.on_event('startup'); migrate to lifespan handler before FastAPI removes it.",
+    "send_email_stub is log-only (intentional) — make sure to wire SendGrid/Resend before going production.",
+    "RAZORPAY_WEBHOOK_SECRET missing — webhook returns ok:false (intentional). Set the secret + test signature path before live launch.",
+    "_decrement_stock loops sequentially; for high concurrency consider a transactional/multi-document update or unique index strategy.",
+    "test_admin_customers page in UI returned 0 customer rows in one run despite backend returning data — likely timing/race; not reproduced consistently and backend API verified. Worth a re-check by main agent."
+  ],
+  "updated_files": [
+    "/app/backend/tests/backend_test.py (rewrote to align with current API contract: product_id, qty, address.line1/pincode, payment status semantics, mock razorpay, webhook, admin customers/CSV)"
+  ],
+  "success_rate": {"backend": "100% (31/31)", "frontend": "100% on tested critical flows"},
+  "test_credentials": "Admin admin@pujabazar.in / Admin@12345; Customer test@pujabazar.in / Test@12345 (from /app/memory/test_credentials.md, verified working)",
+  "seed_data_creation": "None new — used existing seeded products and 1 test customer; created several TEST_-prefixed orders + 1 throwaway product (deleted at end of test_admin_product_crud).",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Backend test suite at /app/backend/tests/backend_test.py is fully aligned with current API (uses product_id/qty, address.line1/pincode, payment_method razorpay/cod, admin endpoints incl. /admin/customers and /admin/export/orders.csv). Razorpay is mock-only (no keys) — checkout returns mock:true and order.payment_status=='test_mode' — that is expected. Webhook returns ok:false (webhook_secret_not_configured) — also expected. Hero MUST stay h-[78vh] min-h-[520px] (verified preserved at /app/frontend/src/pages/Home.jsx:44).",
+  "rca_of_the_issue": "No bugs needing RCA. Only cosmetic issue: two seed product image URLs (customer-assets.emergentagent.com hero3.jpg/hero5.jpg) do not render — DB rows still hold those URLs because seed only runs when products collection is empty, so updating server.py alone won't fix existing rows."
+}

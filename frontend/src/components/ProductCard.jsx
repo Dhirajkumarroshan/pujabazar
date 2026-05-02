@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Plus, Minus } from "lucide-react";
 import { useCart } from "../lib/cart";
 import { inr } from "../lib/api";
@@ -6,7 +7,7 @@ import { inr } from "../lib/api";
 function resolveImg(src) {
   if (!src) return "";
   if (src.startsWith("http")) return src;
-  return src; // public/images path
+  return src;
 }
 
 export default function ProductCard({ product }) {
@@ -17,7 +18,7 @@ export default function ProductCard({ product }) {
 
   return (
     <div data-testid={`product-card-${product.product_id}`} className="group flex flex-col">
-      <div className="relative aspect-[4/5] bg-bone-100 overflow-hidden rounded-xl">
+      <Link to={`/product/${product.product_id}`} className="relative aspect-[4/5] bg-bone-100 overflow-hidden rounded-xl block">
         <img
           src={resolveImg(product.image)}
           alt={product.name}
@@ -29,20 +30,26 @@ export default function ProductCard({ product }) {
             {discount}% off
           </div>
         )}
+        {product.stock === 0 && (
+          <div className="absolute top-3 right-3 bg-terra-600 text-bone-50 text-[10px] tracking-[0.2em] uppercase px-2 py-1 rounded">
+            Out of stock
+          </div>
+        )}
         <div className="absolute left-3 right-3 bottom-3 opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
           {!inCart ? (
             <button
               data-testid={`add-to-cart-${product.product_id}`}
-              onClick={() => add(product, 1)}
-              className="w-full py-3 rounded-full bg-ink-900 text-bone-50 text-xs uppercase tracking-[0.2em] font-medium hover:bg-terra-600 transition-colors"
+              onClick={(e) => { e.preventDefault(); if (product.stock > 0) add(product, 1); }}
+              disabled={product.stock === 0}
+              className="w-full py-3 rounded-full bg-ink-900 text-bone-50 text-xs uppercase tracking-[0.2em] font-medium hover:bg-terra-600 transition-colors disabled:opacity-50"
             >
-              Add to Cart
+              {product.stock === 0 ? "Sold out" : "Add to Cart"}
             </button>
           ) : (
-            <div className="w-full py-2 rounded-full bg-ink-900 text-bone-50 flex items-center justify-between px-4">
+            <div className="w-full py-2 rounded-full bg-ink-900 text-bone-50 flex items-center justify-between px-4" onClick={(e) => e.preventDefault()}>
               <button
                 data-testid={`qty-dec-${product.product_id}`}
-                onClick={() => setQty(product.product_id, inCart.qty - 1)}
+                onClick={(e) => { e.preventDefault(); setQty(product.product_id, inCart.qty - 1); }}
                 className="p-1 hover:text-gold-500"
               >
                 <Minus size={16} strokeWidth={1.5} />
@@ -52,7 +59,7 @@ export default function ProductCard({ product }) {
               </span>
               <button
                 data-testid={`qty-inc-${product.product_id}`}
-                onClick={() => setQty(product.product_id, inCart.qty + 1)}
+                onClick={(e) => { e.preventDefault(); setQty(product.product_id, inCart.qty + 1); }}
                 className="p-1 hover:text-gold-500"
               >
                 <Plus size={16} strokeWidth={1.5} />
@@ -60,8 +67,8 @@ export default function ProductCard({ product }) {
             </div>
           )}
         </div>
-      </div>
-      <div className="pt-4">
+      </Link>
+      <Link to={`/product/${product.product_id}`} className="pt-4 block">
         <div className="text-[10px] uppercase tracking-[0.2em] text-terra-600 mb-1">{product.category}</div>
         <h3 className="font-serif text-lg text-ink-900 leading-snug">{product.name}</h3>
         <div className="mt-1 flex items-baseline gap-2">
@@ -70,7 +77,7 @@ export default function ProductCard({ product }) {
             <span className="text-xs text-ink-500 line-through">{inr(product.mrp)}</span>
           )}
         </div>
-      </div>
+      </Link>
     </div>
   );
 }
